@@ -1,0 +1,45 @@
+name: MightyElephants backend CI/CD
+
+on:
+  push:
+    branches: [ "main", "backend-docker" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: sessionz
+          POSTGRES_PASSWORD: password
+          POSTGRES_USER: mighty
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build and test with Maven
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/sessionz
+          SPRING_DATASOURCE_USERNAME: mighty
+          SPRING_DATASOURCE_PASSWORD: password
+        run: |
+          cd backend
+          mvn clean verify -e -X
