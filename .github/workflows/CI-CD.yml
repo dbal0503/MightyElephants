@@ -36,5 +36,5 @@ jobs:
 
       - name: Build and test with Maven
         run: |
-          cd root/backend
+          cd MightyElephants/backend
           mvn clean verify
