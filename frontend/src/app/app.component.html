@@ -1,0 +1,6 @@
+<app-navbar (signIn)="openSignInModal()"></app-navbar>
+<router-outlet></router-outlet>
+<app-sign-in
+  *ngIf="showSignInModal"
+  (close)="closeSignInModal()"
+></app-sign-in>
