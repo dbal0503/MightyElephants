@@ -12,7 +12,9 @@
   }
   
   .modal-content {
-    position: relative;
+    position: absolute;
+    top: 20px;
+    right: 50px;
     background: #fff;
     padding: 30px;
     width: 400px;
