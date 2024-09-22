@@ -1,0 +1,53 @@
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #004085;
+    color: #fff;
+  
+    .navbar-left {
+      display: flex;
+      align-items: center;
+  
+      .logo {
+        height: 50px;
+        margin-right: 10px;
+      }
+  
+      .company-name {
+        font-size: 24px;
+        font-weight: bold;
+      }
+    }
+  
+    .navbar-right {
+      display: flex;
+      align-items: center;
+  
+      .nav-link {
+        margin-right: 20px;
+        font-size: 18px;
+        cursor: default;
+        color: #fff;
+      }
+  
+      .sign-in-btn {
+        padding: 8px 16px;
+        font-size: 16px;
+        background-color: #0069d9;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+  
+      .sign-in-btn:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+  

@@ -1,13 +1,29 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './navbar/navbar.component';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    NavbarComponent,
+    SignInComponent, 
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'MightyElephants';
+  showSignInModal = false;
+
+  openSignInModal() {
+    this.showSignInModal = true;
+  }
+
+  closeSignInModal() {
+    this.showSignInModal = false;
+  }
 }
