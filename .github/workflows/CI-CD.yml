@@ -14,8 +14,9 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_DB: testdb
-          POSTGRES_PASSWORD: testpassword
+          POSTGRES_DB: sessionz
+          POSTGRES_PASSWORD: password
+          POSTGRES_USER: mighty
         ports:
           - 5432:5432
         options: >-
@@ -35,6 +36,10 @@ jobs:
           cache: maven
 
       - name: Build and test with Maven
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/sessionz
+          SPRING_DATASOURCE_USERNAME: mighty
+          SPRING_DATASOURCE_PASSWORD: password
         run: |
           cd backend
-          mvn clean verify
+          mvn clean verify -e -X
