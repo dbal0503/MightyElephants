@@ -1,8 +1,12 @@
 package dev.mightyelephants.backend.model;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "deliverers")
+@Getter
+@Setter
 public class Deliverer {
 
     @Id
@@ -20,30 +24,6 @@ public class Deliverer {
 
     public Deliverer(String fullName, int numberOfPackages) {
         this.fullName = fullName;
-        this.numberOfPackages = numberOfPackages;
-    }
-
-    public Long getDelivererId() {
-        return delivererId;
-    }
-
-    public void setDelivererId(Long delivererId) {
-        this.delivererId = delivererId;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public int getNumberOfPackages() {
-        return numberOfPackages;
-    }
-
-    public void setNumberOfPackages(int numberOfPackages) {
         this.numberOfPackages = numberOfPackages;
     }
 }
