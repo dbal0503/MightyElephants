@@ -1,9 +1,12 @@
 package dev.mightyelephants.backend.model;
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "deliveries")
+@Getter
+@Setter
 public class Delivery {
 
     @Id
@@ -31,46 +34,6 @@ public class Delivery {
         this.status = status;
         this.trackingNumber = trackingNumber;
         this.sender = sender;
-        this.recipient = recipient;
-    }
-
-    public Long getDeliveryId() {
-        return deliveryId;
-    }
-
-    public void setDeliveryId(Long deliveryId) {
-        this.deliveryId = deliveryId;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getTrackingNumber() {
-        return trackingNumber;
-    }
-
-    public void setTrackingNumber(String trackingNumber) {
-        this.trackingNumber = trackingNumber;
-    }
-
-    public Sender getSender() {
-        return sender;
-    }
-
-    public void setSender(Sender sender) {
-        this.sender = sender;
-    }
-
-    public Recipient getRecipient() {
-        return recipient;
-    }
-
-    public void setRecipient(Recipient recipient) {
         this.recipient = recipient;
     }
 }

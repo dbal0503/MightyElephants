@@ -6,10 +6,10 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "quote_requests")
+@Table(name = "shipping_labels")
 @Getter
 @Setter
-public class QuoteRequest {
+public class ShippingLabel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,17 +27,25 @@ public class QuoteRequest {
     @Column(nullable = false)
     private LocalDate date;
 
-    @Column(nullable = false)
-    private double packageWeight;
+    @Column(nullable = false, unique = true)
+    private String trackingNumber;
 
-    public QuoteRequest() {
+    @Column(nullable = false)
+    private String returnAddress;
+
+    @Column(nullable = false)
+    private String phoneNumber;
+
+    public ShippingLabel() {
     }
 
-    public QuoteRequest(String originalAddress, String packageDimensions, String destinationAddress, LocalDate date, double packageWeight) {
+    public ShippingLabel(String originalAddress, String packageDimensions, String destinationAddress, LocalDate date, String trackingNumber, String returnAddress, String phoneNumber) {
         this.originalAddress = originalAddress;
         this.packageDimensions = packageDimensions;
         this.destinationAddress = destinationAddress;
         this.date = date;
-        this.packageWeight = packageWeight;
+        this.trackingNumber = trackingNumber;
+        this.returnAddress = returnAddress;
+        this.phoneNumber = phoneNumber;
     }
 }

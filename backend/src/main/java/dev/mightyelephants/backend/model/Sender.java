@@ -1,8 +1,12 @@
 package dev.mightyelephants.backend.model;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "senders")
+@Getter
+@Setter
 public class Sender {
 
     @Id
@@ -16,22 +20,6 @@ public class Sender {
     }
 
     public Sender(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public Long getSenderId() {
-        return senderId;
-    }
-
-    public void setSenderId(Long senderId) {
-        this.senderId = senderId;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 }

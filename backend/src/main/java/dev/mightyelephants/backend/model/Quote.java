@@ -1,9 +1,14 @@
 package dev.mightyelephants.backend.model;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "quotes")
+@Getter
+@Setter
 public class Quote {
 
     @Id
@@ -21,30 +26,6 @@ public class Quote {
 
     public Quote(double priceForLabel, LocalDate date) {
         this.priceForLabel = priceForLabel;
-        this.date = date;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public double getPriceForLabel() {
-        return priceForLabel;
-    }
-
-    public void setPriceForLabel(double priceForLabel) {
-        this.priceForLabel = priceForLabel;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
         this.date = date;
     }
 }
