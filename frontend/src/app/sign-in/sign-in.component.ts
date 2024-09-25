@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { jwtDecode } from 'jwt-decode'
+import { AuthService } from '../services/auth.service';
 
 declare const google: any;
 
@@ -13,6 +14,8 @@ export class SignInComponent implements OnInit {
   
   @Output() close = new EventEmitter<void>();
   
+  constructor(private authService: AuthService) {}
+
   ngOnInit(): void {
     this.initializeGoogleSignIn();
   }
@@ -43,9 +46,10 @@ export class SignInComponent implements OnInit {
       picture: decodedToken.picture,
     };
   
-    // Store the token and user info as needed
-    localStorage.setItem('id_token', token);
-    localStorage.setItem('user', JSON.stringify(user));
+    this.authService.signIn(token, user);
+
+    // Close the modal
+    this.closeModal();
   }
 
   closeModal() {
