@@ -16,7 +16,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   isSignedIn: boolean = false;
   userName: string = '';
-  private authSubscription!: Subscription; // Added '!' operator
+  private authSubscription!: Subscription;
 
   constructor(private authService: AuthService) {}
 
@@ -26,7 +26,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.isSignedIn = status;
       if (status) {
         const user = this.authService.getUserInfo();
-        this.userName = user ? user.name : '';
+        this.userName = user?.name ?? '';
       } else {
         this.userName = '';
       }

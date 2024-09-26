@@ -20,14 +20,11 @@ export class AppComponent {
   
   public showSignInModal = false;
   
-  constructor(private ref: ChangeDetectorRef) {}
-
   openSignInModal() {
     this.showSignInModal = true;
   }
 
   closeSignInModal() {
     this.showSignInModal = false;
-    this.ref.detectChanges();
   }
 }
