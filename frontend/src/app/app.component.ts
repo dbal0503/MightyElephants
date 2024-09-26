@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -17,7 +17,10 @@ import { SignInComponent } from './sign-in/sign-in.component';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  showSignInModal = false;
+  
+  public showSignInModal = false;
+  
+  constructor(private ref: ChangeDetectorRef) {}
 
   openSignInModal() {
     this.showSignInModal = true;
@@ -25,5 +28,6 @@ export class AppComponent {
 
   closeSignInModal() {
     this.showSignInModal = false;
+    this.ref.detectChanges();
   }
 }

@@ -13,15 +13,21 @@ public class JwtConfiguration {
     @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
     private String issuerUri;
 
+    @Value("${spring.security.oauth2.resourceserver.jwt.audience}")
+    private String audience;
+
     @Bean
     public JwtDecoder jwtDecoder() {
-        return JwtDecoders.fromIssuerLocation(issuerUri);
+        NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder) JwtDecoders.fromIssuerLocation(issuerUri);
+        jwtDecoder.setJwtValidator(tokenValidator());
+        return jwtDecoder;
+
     }
 
     @Bean
     public OAuth2TokenValidator<Jwt> tokenValidator() {
 
-        OAuth2TokenValidator<Jwt> audienceValidator = new AudienceValidator("676832423324-ho9rcav2ddnapfo2olvl6pm509ubpcc4.apps.googleusercontent.com");
+        OAuth2TokenValidator<Jwt> audienceValidator = new AudienceValidator(audience);
 
         OAuth2TokenValidator<Jwt> issuerValidator = JwtValidators.createDefaultWithIssuer(issuerUri);
 
