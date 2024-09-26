@@ -7,10 +7,10 @@ This README provides step-by-step instructions to set up and run the project.
 Before you begin, ensure you have the following installed:
 
 - Git
-- JDK 23
+- JDK >21
 - Docker
-- Node.js and npm
-- Angular CLI
+- Node.js<v18.19 and npm 
+- Angular CLI = 18.2.6
 
 ## Environment Setup
 
@@ -25,14 +25,17 @@ Before you begin, ensure you have the following installed:
 2. Start the Docker containers:
 ```docker-compose up --build```
 3. Build the project:
+For windows:
 ```./mvnw.cmd clean package```
-4. Run the backend application:
+For Linux/MacOs
+```./mvnw clean package```
+5. Run the backend application:
 ```java -jar target/backend-0.0.1-SNAPSHOT.jar```
 
 ## Frontend Setup
 
-1. Navigate to the frontend directory:
-```cd ../frontend```
+1. Navigate to the frontend directory from root:
+```cd /frontend```
 2. Install dependencies:
 ```npm i```
 3. Ensure Angular CLI is installed globally:
