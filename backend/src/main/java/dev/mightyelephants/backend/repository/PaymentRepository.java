@@ -8,3 +8,4 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     List<Payment> findByStatus(String status);
     List<Payment> findByPaymentMethodType(String paymentMethodType);
 }
+

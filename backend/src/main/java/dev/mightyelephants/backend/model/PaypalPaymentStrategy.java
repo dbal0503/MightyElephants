@@ -13,4 +13,5 @@ public class PaypalPaymentStrategy implements PaymentStrategy {
         payment.setEmail(paymentDetails.get("email"));
         return payment;
     }
+
 }

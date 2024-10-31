@@ -11,6 +11,7 @@ public class PaypalPayment extends Payment {
     @Column(name = "email", nullable = false)
     private String email;
 
+
     @Override
     public boolean pay() {
         setStatus("COMPLETED");
