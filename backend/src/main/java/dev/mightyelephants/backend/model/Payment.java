@@ -3,34 +3,30 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "payments")
 @Getter
 @Setter
-@Inheritance(strategy = InheritanceType.JOINED)
-public class Payment {
-
+@Entity
+@Table(name = "payments")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "payment_method_type", discriminatorType = DiscriminatorType.STRING)
+public abstract class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long paymentID;
+    private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "amount", nullable = false)
     private double amount;
 
-    @Column(nullable = false)
+    @Column(name = "payment_date", nullable = false)
+    private LocalDateTime paymentDate;
+
+    @Column(name = "status")
     private String status;
 
-    @Column(nullable = false)
-    private LocalDate date;
-
+    public abstract boolean pay();
     public Payment() {
-    }
-
-    public Payment(double amount, String status, LocalDate date) {
-        this.amount = amount;
-        this.status = status;
-        this.date = date;
+        this.paymentDate = LocalDateTime.now();
     }
 }
