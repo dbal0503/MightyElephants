@@ -9,3 +9,4 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     List<Payment> findByPaymentMethodType(String paymentMethodType);
 }
 
+
