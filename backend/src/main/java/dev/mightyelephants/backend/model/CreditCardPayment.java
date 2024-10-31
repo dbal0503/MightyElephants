@@ -5,39 +5,25 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "credit_card_payments")
 @Getter
 @Setter
+@DiscriminatorValue("CREDIT_CARD")
 public class CreditCardPayment extends Payment {
-
-    @Column(nullable = false)
+    @Column(name = "card_number", nullable = false)
     private String cardNumber;
 
-    @Column(nullable = false)
-    private String expirationDate;
+    @Column(name = "card_holder_name", nullable = false)
+    private String cardHolderName;
 
-    @Column(nullable = false)
+    @Column(name = "cvv", nullable = false)
     private String cvv;
 
-    @Column(nullable = false)
-    private String cardholderName;
+    @Column(name = "expiry_date", nullable = false)
+    private String expiryDate;
 
-    @Column(nullable = false)
-    private String billingAddress;
-
-    @Column(nullable = false)
-    private String phoneNumber;
-
-    public CreditCardPayment() {
-    }
-
-    public CreditCardPayment(double amount, String status, LocalDate date, String cardNumber, String expirationDate, String cvv, String cardholderName, String billingAddress, String phoneNumber) {
-        super(amount, status, date);
-        this.cardNumber = cardNumber;
-        this.expirationDate = expirationDate;
-        this.cvv = cvv;
-        this.cardholderName = cardholderName;
-        this.billingAddress = billingAddress;
-        this.phoneNumber = phoneNumber;
+    @Override
+    public boolean pay() {
+        setStatus("COMPLETED");
+        return true;
     }
 }
