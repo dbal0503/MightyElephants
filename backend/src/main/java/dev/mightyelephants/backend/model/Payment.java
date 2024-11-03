@@ -25,6 +25,9 @@ public abstract class Payment {
     @Column(name = "status")
     private String status;
 
+    @Column(name = "payment_method_type", insertable = false, updatable = false)
+    private String paymentMethodType;
+
     public abstract boolean pay();
     public Payment() {
         this.paymentDate = LocalDateTime.now();
