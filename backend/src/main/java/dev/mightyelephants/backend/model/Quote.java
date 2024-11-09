@@ -20,8 +20,13 @@ public class Quote {
 
     @Column(nullable = false)
     private LocalDate date;
+    private double price;
+    private String shippingType;
+    private String estimatedDelivery;
+    private String status;
 
     public Quote() {
+
     }
 
     public Quote(double priceForLabel, LocalDate date) {

@@ -1,6 +1,8 @@
 package dev.mightyelephants.backend.model;
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "users")
