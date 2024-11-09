@@ -4,6 +4,8 @@ import dev.mightyelephants.backend.model.Quote;
 import dev.mightyelephants.backend.repository.QuoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import dev.mightyelephants.backend.model.ShippingLabel;
+import dev.mightyelephants.backend.repository.ShippingLabelRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +14,12 @@ import java.util.List;
 public class QuoteService {
 
     private final QuoteRepository quoteRepository;
+    private final ShippingLabelRepository shippingLabelRepository;
 
     @Autowired
-    public QuoteService(QuoteRepository quoteRepository) {
+    public QuoteService(QuoteRepository quoteRepository, ShippingLabelRepository shippingLabelRepository) {
         this.quoteRepository = quoteRepository;
+        this.shippingLabelRepository = shippingLabelRepository;
     }
 
     public List<Quote> calculateShippingOptions(QuoteRequest quoteRequest) {
@@ -24,13 +28,20 @@ public class QuoteService {
 
         options.add(QuoteFactory.createStandardQuote(weight));
         options.add(QuoteFactory.createExpressQuote(weight));
-        
+
         return options;
     }
 
-    public Quote createQuote(Quote selectedQuote) {
-        selectedQuote.setStatus("Pending");
-        return quoteRepository.save(selectedQuote);
+    public ShippingLabel generateShippingLabelAfterPayment(QuoteRequest quoteRequest, Quote selectedQuote) {
+        ShippingLabel shippingLabel = new ShippingLabel();
+        shippingLabel.setShippingType(selectedQuote.getShippingType());
+        shippingLabel.setPrice(selectedQuote.getPrice());
+        shippingLabel.setOrigin(quoteRequest.getOrigin());
+        shippingLabel.setDestination(quoteRequest.getDestination());
+        shippingLabel.setWeight(quoteRequest.getWeight());
+        shippingLabel.setEstimatedDelivery(selectedQuote.getEstimatedDelivery());
+
+        return shippingLabelRepository.save(shippingLabel);
     }
 }
 

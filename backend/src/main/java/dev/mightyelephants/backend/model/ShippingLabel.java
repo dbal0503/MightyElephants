@@ -16,36 +16,37 @@ public class ShippingLabel {
     private Long id;
 
     @Column(nullable = false)
-    private String originalAddress;
+    private String origin;
 
     @Column(nullable = false)
-    private String packageDimensions;
+    private String destination;
 
     @Column(nullable = false)
-    private String destinationAddress;
+    private double weight;
 
     @Column(nullable = false)
-    private LocalDate date;
-
-    @Column(nullable = false, unique = true)
-    private String trackingNumber;
+    private String shippingType;
 
     @Column(nullable = false)
-    private String returnAddress;
+    private double price;
 
     @Column(nullable = false)
-    private String phoneNumber;
+    private String estimatedDelivery;
+
+    @Column(nullable = false)
+    private LocalDate dateIssued;
 
     public ShippingLabel() {
+        this.dateIssued = LocalDate.now();
     }
 
-    public ShippingLabel(String originalAddress, String packageDimensions, String destinationAddress, LocalDate date, String trackingNumber, String returnAddress, String phoneNumber) {
-        this.originalAddress = originalAddress;
-        this.packageDimensions = packageDimensions;
-        this.destinationAddress = destinationAddress;
-        this.date = date;
-        this.trackingNumber = trackingNumber;
-        this.returnAddress = returnAddress;
-        this.phoneNumber = phoneNumber;
+    public ShippingLabel(String origin, String destination, double weight, String shippingType, double price, String estimatedDelivery) {
+        this.origin = origin;
+        this.destination = destination;
+        this.weight = weight;
+        this.shippingType = shippingType;
+        this.price = price;
+        this.estimatedDelivery = estimatedDelivery;
+        this.dateIssued = LocalDate.now();
     }
 }
