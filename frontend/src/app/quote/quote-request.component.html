@@ -86,20 +86,18 @@
 
   <div *ngIf="shippingOptions && shippingOptions.length > 0" class="shipping-options-container">
     <h3>Available Shipping Options</h3>
-
     <div *ngFor="let option of shippingOptions" class="option-card" [class.selected]="option === selectedOption">
       <div class="option-details">
         <p><strong>Shipping Type:</strong> {{ option.shippingType }}</p>
         <p><strong>Price:</strong> ${{ option.price }}</p>
         <p><strong>Estimated Delivery:</strong> {{ option.estimatedDelivery }}</p>
       </div>
-
-      <button class="pay-btn" (click)="selectOption(option)">Select</button>
+      <button (click)="selectOption(option)" [disabled]="option === selectedOption">Select</button>
     </div>
-  </div>
 
-  <div *ngIf="selectedOption" class="pay-button-container">
-    <button class="pay-btn" (click)="onPay()">Pay</button >
+    <div class="pay-button-container" *ngIf="selectedOption">
+      <button (click)="onPay()">Pay</button>
+    </div>
   </div>
 
 </div>
