@@ -1,4 +1,5 @@
 package dev.mightyelephants.backend.service;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Min;
 import lombok.Getter;
@@ -16,17 +17,23 @@ public class QuoteRequest {
     @Min(value = 0, message = "Weight must be non-negative")
     private double weight;
 
-    @NotNull(message = "Dimensions are required")
-    private String dimensions;
+    @Min(value = 0, message = "length must be non-negative")
+    private double length;
 
-    @NotNull(message = "Shipping type is required")
-    private String shippingType;
+    @Min(value = 0, message = "Width must be non-negative")
+    private double width;
 
-    public QuoteRequest(String origin, String destination, double weight, String dimensions, String shippingType) {
+    @Min(value = 0, message = "Height must be non-negative")
+    private double height;
+
+
+
+    public QuoteRequest(String origin, String destination, double weight, double length, double width, double height) {
         this.origin = origin;
         this.destination = destination;
         this.weight = weight;
-        this.dimensions = dimensions;
-        this.shippingType = shippingType;
+        this.length = length;
+        this.width = width;
+        this.height = height;
     }
 }
