@@ -29,6 +29,42 @@
     </div>
 
     <div class="form-group">
+      <label for="length">Length (cm)</label>
+      <input
+        id="length"
+        type="number"
+        formControlName="length"
+        placeholder="Enter length in cm"
+        min="0"
+        (input)="updateWeight()"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="width">Width (cm)</label>
+      <input
+        id="width"
+        type="number"
+        formControlName="width"
+        placeholder="Enter width in cm"
+        min="0"
+        (input)="updateWeight()"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="height">Height (cm)</label>
+      <input
+        id="height"
+        type="number"
+        formControlName="height"
+        placeholder="Enter height in cm"
+        min="0"
+        (input)="updateWeight()"
+      />
+    </div>
+
+    <div class="form-group">
       <label for="weight">Weight (kg)</label>
       <input
         id="weight"
@@ -36,15 +72,16 @@
         formControlName="weight"
         placeholder="Enter weight in kg"
         min="0"
+        readonly
       />
       <div *ngIf="isFieldInvalid('weight')" class="error-message">
         Please enter a valid weight.
       </div>
     </div>
 
-
     <button type="submit" [disabled]="quoteForm.invalid" class="submit-button">
       Request Quote
     </button>
   </form>
 </div>
+

@@ -13,18 +13,35 @@ import { CommonModule } from '@angular/common';
 })
 export class QuoteRequestComponent implements OnInit {
   quoteForm: FormGroup;
+  volumetricDivisor: number = 5000;
 
   constructor(private fb: FormBuilder, private router: Router) {
-    // Initialize the form group
     this.quoteForm = this.fb.group({
-      origin: ['', [Validators.required, Validators.minLength(3)]],
-      destination: ['', [Validators.required, Validators.minLength(3)]],
-      weight: ['', [Validators.required, Validators.min(0.1)]],
-      paymentMethod: ['card', Validators.required],  // Default to 'card'
+      origin: ['', [Validators.required]],
+      destination: ['', [Validators.required]],
+      length: ['', [Validators.required, Validators.min(0)]],
+      width: ['', [Validators.required, Validators.min(0)]],
+      height: ['', [Validators.required, Validators.min(0)]],
+      weight: [{ value: '', disabled: true }, [Validators.required, Validators.min(0)]]
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.quoteForm.valueChanges.subscribe(() => this.updateWeight());
+  }
+  updateWeight() {
+    const length = this.quoteForm.get('length')?.value;
+    const width = this.quoteForm.get('width')?.value;
+    const height = this.quoteForm.get('height')?.value;
+
+    if (length && width && height) {
+      // Calculate volumetric weight
+      const volumetricWeight = (length * width * height) / this.volumetricDivisor;
+      this.quoteForm.patchValue({
+        weight: volumetricWeight
+      });
+    }
+  }
   onSubmit(): void {
     if (this.quoteForm.valid) {
       console.log('Quote request submitted:', this.quoteForm.value);
