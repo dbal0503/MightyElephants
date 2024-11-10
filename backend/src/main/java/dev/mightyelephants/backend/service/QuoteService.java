@@ -4,8 +4,9 @@ import dev.mightyelephants.backend.model.Quote;
 import dev.mightyelephants.backend.repository.QuoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import dev.mightyelephants.backend.model.ShippingLabel;
 import dev.mightyelephants.backend.repository.ShippingLabelRepository;
+import dev.mightyelephants.backend.service.QuoteRequest;
+import dev.mightyelephants.backend.model.ShippingLabel;
 
 import java.util.ArrayList;
 import java.util.List;

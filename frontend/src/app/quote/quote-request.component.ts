@@ -54,7 +54,7 @@ export class QuoteRequestComponent implements OnInit {
       const quoteRequest = this.quoteForm.value;
       console.log('Quote request submitted:', this.quoteForm.value);
 
-      this.http.post<any[]>('/api/options', quoteRequest).subscribe(
+      this.http.post<any[]>('http://localhost:8080/api/quote/options', quoteRequest).subscribe(
           (options) => {
             this.shippingOptions = options;
             console.log('Shipping options:', this.shippingOptions);

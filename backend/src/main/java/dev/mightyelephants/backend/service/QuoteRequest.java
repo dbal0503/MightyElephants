@@ -1,4 +1,5 @@
 package dev.mightyelephants.backend.service;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Min;
 import lombok.Getter;
