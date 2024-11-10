@@ -83,5 +83,18 @@
       Request Quote
     </button>
   </form>
+
+  <div *ngIf="shippingOptions && shippingOptions.length > 0" class="shipping-options-container">
+    <h3>Available Shipping Options</h3>
+    <div *ngFor="let option of shippingOptions" class="option-card">
+    <div class="option-details">
+      <p><strong>Shipping Type:</strong> {{ option.shippingType }}</p>
+      <p><strong>Price:</strong> ${{ option.price }}</p>
+      <p><strong>Estimated Delivery:</strong> {{ option.estimatedDelivery }}</p>
+    </div>
+    <button (click)="selectOption(option)">Select</button>
+  </div>
+</div>
+
 </div>
 

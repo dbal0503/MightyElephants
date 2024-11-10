@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 
 @Component({
@@ -9,13 +10,14 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   templateUrl: './quote-request.component.html',
   styleUrls: ['./quote-request.component.scss'],
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
 })
 export class QuoteRequestComponent implements OnInit {
   quoteForm: FormGroup;
   volumetricDivisor: number = 5000;
+  shippingOptions: any[] = [];
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router,  private http: HttpClient ) {
     this.quoteForm = this.fb.group({
       origin: ['', [Validators.required]],
       destination: ['', [Validators.required]],
@@ -42,19 +44,33 @@ export class QuoteRequestComponent implements OnInit {
       });
     }
   }
-  onSubmit(): void {
-    if (this.quoteForm.valid) {
-      console.log('Quote request submitted:', this.quoteForm.value);
-
-      this.submitQuoteRequest(this.quoteForm.value);
-    } else {
-      this.markFormGroupTouched(this.quoteForm); // Highlight invalid fields
-    }
-  }
 
   submitQuoteRequest(formData: any): void {
 
     console.log('Request sent to backend:', formData);
+  }
+  onSubmit() {
+    if (this.quoteForm.valid) {
+      const quoteRequest = this.quoteForm.value;
+      console.log('Quote request submitted:', this.quoteForm.value);
+
+      this.http.post<any[]>('/api/options', quoteRequest).subscribe(
+          (options) => {
+            this.shippingOptions = options;
+            console.log('Shipping options:', this.shippingOptions);
+          },
+          (error) => {
+            console.error('Error fetching shipping options:', error);
+            alert('Error fetching shipping options. Please try again later.');
+          }
+        );
+    } else {
+      this.markFormGroupTouched(this.quoteForm);
+    }
+  }
+
+  selectOption(option: any) {
+    //console.log('Selected shipping option:', option);
   }
 
   markFormGroupTouched(formGroup: FormGroup): void {
