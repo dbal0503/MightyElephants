@@ -9,6 +9,8 @@ import dev.mightyelephants.backend.service.QuoteService;
 import dev.mightyelephants.backend.service.PaymentService;
 import org.springframework.web.bind.annotation.*;
 import dev.mightyelephants.backend.service.QuoteRequest;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +25,7 @@ public class QuoteController {
         this.quoteService = quoteService;
         this.paymentService = paymentService;
     }
-
+    @CrossOrigin(origins = "http://localhost:4200/quote-request")
     @PostMapping("/options")
     public ResponseEntity<List<Quote>> getShippingOptions(@RequestBody QuoteRequest quoteRequest) {
         System.out.println("Received quote request: " + quoteRequest);
