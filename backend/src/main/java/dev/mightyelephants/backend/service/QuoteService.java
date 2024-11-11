@@ -5,7 +5,6 @@ import dev.mightyelephants.backend.repository.QuoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import dev.mightyelephants.backend.repository.ShippingLabelRepository;
-import dev.mightyelephants.backend.service.QuoteRequest;
 import dev.mightyelephants.backend.model.ShippingLabel;
 
 import java.util.ArrayList;
@@ -34,13 +33,7 @@ public class QuoteService {
     }
 
     public ShippingLabel generateShippingLabelAfterPayment(QuoteRequest quoteRequest, Quote selectedQuote) {
-        ShippingLabel shippingLabel = new ShippingLabel();
-        shippingLabel.setShippingType(selectedQuote.getShippingType());
-        shippingLabel.setPrice(selectedQuote.getPrice());
-        shippingLabel.setOrigin(quoteRequest.getOrigin());
-        shippingLabel.setDestination(quoteRequest.getDestination());
-        shippingLabel.setWeight(quoteRequest.getWeight());
-        shippingLabel.setEstimatedDelivery(selectedQuote.getEstimatedDelivery());
+        ShippingLabel shippingLabel = (ShippingLabel) ShippingLabelFactory.createLabel(selectedQuote, quoteRequest);
 
         return shippingLabelRepository.save(shippingLabel);
     }

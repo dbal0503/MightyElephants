@@ -8,21 +8,21 @@ import dev.mightyelephants.backend.service.QuoteRequest;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "expressshipping_labels")
 @Getter
 @Setter
-public class ExpressShippingLabel implements ShippingLabelInterface {
+@DiscriminatorValue("EXPRESS")
+public class ExpressShippingLabel extends ShippingLabel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private  String trackingNumber = UUID.randomUUID().toString();
+    private  String trackingNumber = generateTrackingNumber();
     private  String origin;
     private String destination;
     private  double weight;
     private double price;
-    private String estimatedDelivery;
+    private String estimatedDelivery="1-2 Business Days";
     private LocalDate dateIssued = LocalDate.now();
 
     public ExpressShippingLabel(Quote quote, QuoteRequest request) {
@@ -30,10 +30,13 @@ public class ExpressShippingLabel implements ShippingLabelInterface {
         this.destination = request.getDestination();
         this.weight = quote.getWeight();
         this.price = quote.getPrice();
-        this.estimatedDelivery = quote.getEstimatedDelivery();
     }
 
     public ExpressShippingLabel() {
 
+    }
+
+    private String generateTrackingNumber() {
+        return "EXP-" + UUID.randomUUID().toString();
     }
 }
