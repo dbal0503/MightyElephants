@@ -33,16 +33,20 @@ public class Quote {
     @Column(nullable = false)
     private String status;
 
+    @Column(nullable = false)
+    private double weight;
+
 
     public Quote() {
 
     }
-    public Quote(double priceForLabel, LocalDate date, double price, String shippingType, String status) {
+    public Quote(double priceForLabel, LocalDate date, double price, String shippingType, String status, double weight) {
         this.priceForLabel = priceForLabel;
         this.date = date;
         this.price = price;
         this.shippingType = shippingType;
         this.status = status;
+        this.weight = weight;
     }
 
 }

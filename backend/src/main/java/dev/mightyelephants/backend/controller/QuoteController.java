@@ -34,7 +34,7 @@ public class QuoteController {
         return ResponseEntity.ok(options);
     }
 
-    @PostMapping("/select/pay")
+   /* @PostMapping("/select/pay")
     public ResponseEntity<ShippingLabel> selectQuoteAndPay(
             @RequestParam String shippingType,
             @RequestParam double price,
@@ -56,7 +56,7 @@ public class QuoteController {
 
             if (payment.getStatus().equals("COMPLETED")) {
                 // Payment successful, now generate the shipping label
-                ShippingLabel shippingLabel = quoteService.generateShippingLabelAfterPayment(quoteRequest, selectedQuote);
+                //ShippingLabel shippingLabel = quoteService.generateShippingLabelAfterPayment(quoteRequest, selectedQuote);
                 return ResponseEntity.ok(shippingLabel);
             } else {
                 return ResponseEntity.badRequest().body(null);
@@ -64,5 +64,5 @@ public class QuoteController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-    }
+    }*/
 }

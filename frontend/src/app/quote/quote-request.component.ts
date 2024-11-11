@@ -79,12 +79,12 @@ export class QuoteRequestComponent implements OnInit {
 
       const shippingOptions = [
         {
-          price: weight * standardMultiplier,
+          price: (weight * standardMultiplier)+8,
           shippingType: 'Standard',
           estimatedDelivery: '3-5 business days'
         },
         {
-          price: weight * expressMultiplier,
+          price: (weight * expressMultiplier)+8,
           shippingType: 'Express',
           estimatedDelivery: '1-2 business days'
         }
