@@ -1,46 +1,73 @@
 <div class="delivery-request-container">
-    <h2>Delivery Request Information</h2>
-  
-    <form [formGroup]="deliveryForm" (ngSubmit)="onSubmit()" class="delivery-request-form">
-      <div class="form-group">
-        <label for="pickup">Pickup Location</label>
-        <input id="pickup" type="text" formControlName="pickup" placeholder="Enter pickup address" />
-        <div *ngIf="isFieldInvalid('pickup')" class="error-message">
-          Please enter a valid pickup location.
-        </div>
+  <h2>Delivery Request Information</h2>
+
+  <form [formGroup]="deliveryForm" (ngSubmit)="onSubmit()" class="delivery-request-form">
+    <div class="form-group">
+      <label for="pickup">Pickup Location</label>
+      <input id="pickup" type="text" formControlName="pickup" placeholder="Enter pickup address" />
+      <div *ngIf="isFieldInvalid('pickup')" class="error-message">
+        Please enter a valid pickup location.
       </div>
-  
-      <div class="form-group">
-        <label for="dropOff">Drop-off Location</label>
-        <input id="dropOff" type="text" formControlName="dropOff" placeholder="Enter drop-off address" />
-        <div *ngIf="isFieldInvalid('dropOff')" class="error-message">
-          Please enter a valid drop-off location.
-        </div>
-      </div>
-  
-      <div class="form-group">
-        <label for="specialInstructions">Special Instructions</label>
-        <input id="specialInstructions" type="text" formControlName="specialInstructions" placeholder="Enter any special instructions" />
-      </div>
-  
-      <div class="form-group">
-        <label for="deliveryType">Delivery Type</label>
-        <select id="deliveryType" formControlName="deliveryType">
-          <option value="standard">Standard</option>
-          <option value="express">Express</option>
-        </select>
-      </div>
-  
-      <button type="submit" [disabled]="deliveryForm.invalid" class="submit-button">
-        Request Delivery
-      </button>
-    </form>
-  
-    <!-- Enhanced Confirmation Message -->
-    <div *ngIf="showConfirmation" class="confirmation-message">
-      <p>Delivery information is valid.</p>
-      <p>Click below to get your quote now!</p>
-      <button (click)="navigateToQuote()" class="quote-button">Get Quote</button>
     </div>
+
+    <div class="form-group">
+      <label for="dropOff">Drop-off Location</label>
+      <input id="dropOff" type="text" formControlName="dropOff" placeholder="Enter drop-off address" />
+      <div *ngIf="isFieldInvalid('dropOff')" class="error-message">
+        Please enter a valid drop-off location.
+      </div>
+    </div>
+
+    <!-- Styled Checkbox Group -->
+    <div class="form-group">
+      <label class="checkbox-container">
+        Are you already signed in?
+        <input type="checkbox" formControlName="signedIn" (change)="onSignedInChange()" />
+        <span class="checkmark"></span>
+      </label>
+    </div>
+
+    <!-- Additional fields for Name and Email if not signed in -->
+    <div *ngIf="!deliveryForm.get('signedIn')?.value">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input id="name" type="text" formControlName="name" placeholder="Enter your name" />
+        <div *ngIf="isFieldInvalid('name')" class="error-message">
+          Name is required if not signed in.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" placeholder="Enter your email" />
+        <div *ngIf="isFieldInvalid('email')" class="error-message">
+          A valid email is required if not signed in.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="specialInstructions">Special Instructions</label>
+      <input id="specialInstructions" type="text" formControlName="specialInstructions" placeholder="Enter any special instructions" />
+    </div>
+
+    <div class="form-group">
+      <label for="deliveryType">Delivery Type</label>
+      <select id="deliveryType" formControlName="deliveryType">
+        <option value="standard">Standard</option>
+        <option value="express">Express</option>
+      </select>
+    </div>
+
+    <button type="submit" [disabled]="deliveryForm.invalid" class="submit-button">
+      Request Delivery
+    </button>
+  </form>
+
+  <!-- Confirmation Message and Navigation Button -->
+  <div *ngIf="showConfirmation" class="confirmation-message">
+    <p>Delivery information is valid.</p>
+    <p>Click below to get your quote now!</p>
+    <button (click)="navigateToQuote()" class="quote-button">Get Quote</button>
   </div>
-  
+</div>
