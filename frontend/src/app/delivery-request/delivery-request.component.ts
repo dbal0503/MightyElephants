@@ -23,7 +23,8 @@ export class DeliveryRequestComponent implements OnInit {
       name: [''],
       email: ['', [Validators.email]],
       specialInstructions: [''],
-      deliveryType: ['standard', [Validators.required]]
+      deliveryType: ['standard', [Validators.required]],
+      termsAccepted: [false, [Validators.requiredTrue]] // Required to be checked
     });
   }
 

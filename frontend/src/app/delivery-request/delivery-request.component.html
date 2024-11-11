@@ -59,6 +59,18 @@
       </select>
     </div>
 
+    <!-- Terms and Conditions Checkbox -->
+    <div class="form-group">
+      <label class="checkbox-container">
+        I have read and agree to the <a href="#" target="_blank">Terms and Conditions</a>
+        <input type="checkbox" formControlName="termsAccepted" />
+        <span class="checkmark"></span>
+      </label>
+      <div *ngIf="isFieldInvalid('termsAccepted')" class="error-message">
+        You must agree to the Terms and Conditions.
+      </div>
+    </div>
+
     <button type="submit" [disabled]="deliveryForm.invalid" class="submit-button">
       Request Delivery
     </button>
