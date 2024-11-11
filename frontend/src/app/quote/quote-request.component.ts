@@ -71,25 +71,30 @@ export class QuoteRequestComponent implements OnInit {
     }
   }*/
   onSubmit() {
-    // Hardcoded shipping options for simulation
-    const shippingOptions = [
-      {
-        price: 10.0,
-        shippingType: 'Standard',
-        estimatedDelivery: '3-5 business days'
-      },
-      {
-        price: 25.0,
-        shippingType: 'Express',
-        estimatedDelivery: '1-2 business days'
-      }
-    ];
+    if (this.quoteForm.valid) {
+      const weight = this.quoteForm.get('weight')?.value;
 
-    // Simulate API response by assigning the hardcoded options to shippingOptions
-    this.shippingOptions = shippingOptions;
+      const standardMultiplier = 2.5;
+      const expressMultiplier = 5.0;
 
-    // Log to see the response
-    console.log("Shipping options returned: ", this.shippingOptions);
+      const shippingOptions = [
+        {
+          price: weight * standardMultiplier,
+          shippingType: 'Standard',
+          estimatedDelivery: '3-5 business days'
+        },
+        {
+          price: weight * expressMultiplier,
+          shippingType: 'Express',
+          estimatedDelivery: '1-2 business days'
+        }
+      ];
+
+      this.shippingOptions = shippingOptions;
+      console.log("Shipping options returned: ", this.shippingOptions);
+    } else {
+      this.markFormGroupTouched(this.quoteForm);
+    }
   }
 
 
