@@ -1,4 +1,5 @@
 package dev.mightyelephants.backend.model;
+import java.util.UUID;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +15,9 @@ public class ShippingLabel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String trackingNumber;
 
     @Column(nullable = false)
     private String origin;
@@ -37,6 +41,7 @@ public class ShippingLabel {
     private LocalDate dateIssued;
 
     public ShippingLabel() {
+        this.trackingNumber = generateTrackingNumber();
         this.dateIssued = LocalDate.now();
     }
 
@@ -47,6 +52,10 @@ public class ShippingLabel {
         this.shippingType = shippingType;
         this.price = price;
         this.estimatedDelivery = estimatedDelivery;
+        this.trackingNumber = generateTrackingNumber();
         this.dateIssued = LocalDate.now();
+    }
+    private String generateTrackingNumber() {
+        return UUID.randomUUID().toString();
     }
 }
