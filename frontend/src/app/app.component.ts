@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -19,8 +19,9 @@ import { QuoteRequestComponent } from './quote/quote-request.component';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  showSignInModal = false;
-
+  
+  public showSignInModal = false;
+  
   openSignInModal() {
     this.showSignInModal = true;
   }
