@@ -51,40 +51,23 @@ export class QuoteRequestComponent implements OnInit {
 
     console.log('Request sent to backend:', formData);
   }
-  /*onSubmit() {
-    if (this.quoteForm.valid) {
-      const quoteRequest = this.quoteForm.value;
-      console.log('Quote request submitted:', this.quoteForm.value);
-
-      this.http.post<any[]>('http://localhost:8080/api/quote/options', quoteRequest).subscribe(
-          (options) => {
-            this.shippingOptions = options;
-            console.log('Shipping options:', this.shippingOptions);
-          },
-          (error) => {
-            console.error('Error fetching shipping options:', error);
-            alert('Error fetching shipping options. Please try again later.');
-          }
-        );
-    } else {
-      this.markFormGroupTouched(this.quoteForm);
-    }
-  }*/
   onSubmit() {
     if (this.quoteForm.valid) {
       const weight = this.quoteForm.get('weight')?.value;
+      const origin = this.quoteForm.get('origin')?.value;
+      const destination = this.quoteForm.get('destination')?.value;
 
       const standardMultiplier = 2.5;
       const expressMultiplier = 5.0;
 
       const shippingOptions = [
         {
-          price: weight * standardMultiplier,
+          price: (weight * standardMultiplier)+11,
           shippingType: 'Standard',
           estimatedDelivery: '3-5 business days'
         },
         {
-          price: weight * expressMultiplier,
+          price: (weight * expressMultiplier)+23,
           shippingType: 'Express',
           estimatedDelivery: '1-2 business days'
         }
@@ -98,6 +81,7 @@ export class QuoteRequestComponent implements OnInit {
   }
 
 
+
   selectOption(option: any) {
     this.selectedOption = option;
     this.isSelected = true;
@@ -105,9 +89,33 @@ export class QuoteRequestComponent implements OnInit {
 
   onPay() {
     if (this.selectedOption) {
-      this.router.navigate(['/payment'], {
-        state: { selectedQuote: this.selectedOption }
-      });
+      const weight = this.quoteForm.get('weight')?.value;
+      const origin = this.quoteForm.get('origin')?.value;
+      const destination = this.quoteForm.get('destination')?.value;
+
+      const quoteData = {
+        origin: origin,
+        destination: destination,
+        price: this.selectedOption.price,
+        weight: weight,
+        shippingType: this.selectedOption.shippingType
+      };
+
+      this.http.post('http://localhost:8080/api/quote/save-request', quoteData).subscribe(
+        (response) => {
+          console.log('Quote saved successfully:', response);
+          this.router.navigate(['/payment'], {
+            state: { selectedQuote: this.selectedOption }
+          });
+        },
+        (error) => {
+          console.error('Error saving quote:', error);
+          alert('Error saving quote. Please try again later.');
+          this.router.navigate(['/payment'], {//Temporary WILL REMOVE
+            state: { selectedQuote: this.selectedOption } //Temporary WILL REMOVE
+          });//Temporary WILL REMOVE
+        }
+      );
     } else {
       alert('Please select a shipping option.');
     }

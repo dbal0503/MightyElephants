@@ -8,6 +8,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "shipping_labels")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Getter
 @Setter
 public class ShippingLabel {

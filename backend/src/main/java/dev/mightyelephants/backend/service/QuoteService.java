@@ -3,9 +3,9 @@ package dev.mightyelephants.backend.service;
 import dev.mightyelephants.backend.model.Quote;
 import dev.mightyelephants.backend.repository.QuoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import dev.mightyelephants.backend.repository.ShippingLabelRepository;
-import dev.mightyelephants.backend.service.QuoteRequest;
 import dev.mightyelephants.backend.model.ShippingLabel;
 
 import java.util.ArrayList;
@@ -23,6 +23,18 @@ public class QuoteService {
         this.shippingLabelRepository = shippingLabelRepository;
     }
 
+    public Quote saveQuote(Quote quoteRequest){
+        Quote quote = new Quote();
+        quote.setOrigin(quoteRequest.getOrigin());
+        quote.setDestination(quoteRequest.getDestination());
+        quote.setDate(quoteRequest.getDate());
+        quote.setPrice(quoteRequest.getPrice());
+        quote.setShippingType(quoteRequest.getShippingType());
+        quote.setWeight(quoteRequest.getWeight());
+        return quoteRepository.save(quote);
+    }
+
+
     public List<Quote> calculateShippingOptions(QuoteRequest quoteRequest) {
         List<Quote> options = new ArrayList<>();
         double weight = quoteRequest.getWeight();
@@ -33,15 +45,8 @@ public class QuoteService {
         return options;
     }
 
-    public ShippingLabel generateShippingLabelAfterPayment(QuoteRequest quoteRequest, Quote selectedQuote) {
-        ShippingLabel shippingLabel = new ShippingLabel();
-        shippingLabel.setShippingType(selectedQuote.getShippingType());
-        shippingLabel.setPrice(selectedQuote.getPrice());
-        shippingLabel.setOrigin(quoteRequest.getOrigin());
-        shippingLabel.setDestination(quoteRequest.getDestination());
-        shippingLabel.setWeight(quoteRequest.getWeight());
-        shippingLabel.setEstimatedDelivery(selectedQuote.getEstimatedDelivery());
-
+    public ShippingLabel generateShippingLabelAfterPayment(Quote selectedQuote) {
+        ShippingLabel shippingLabel = (ShippingLabel) ShippingLabelFactory.createLabel(selectedQuote);
         return shippingLabelRepository.save(shippingLabel);
     }
 }

@@ -1,6 +1,7 @@
 package dev.mightyelephants.backend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +18,10 @@ public class Quote {
     private Long id;
 
     @Column(nullable = false)
-    private double priceForLabel;
+    private String origin;
+
+    @Column(nullable = false)
+    private String destination;
 
     @Column(nullable = false)
     private LocalDate date;
@@ -31,18 +35,19 @@ public class Quote {
     private String estimatedDelivery;
 
     @Column(nullable = false)
-    private String status;
+    private double weight;
 
 
     public Quote() {
-
     }
-    public Quote(double priceForLabel, LocalDate date, double price, String shippingType, String status) {
-        this.priceForLabel = priceForLabel;
+
+    public Quote(String origin, String destination, LocalDate date, double price, String shippingType, double weight) {
+        this.origin = origin;
+        this.destination = destination;
         this.date = date;
         this.price = price;
         this.shippingType = shippingType;
-        this.status = status;
+        this.weight = weight;
     }
 
 }
