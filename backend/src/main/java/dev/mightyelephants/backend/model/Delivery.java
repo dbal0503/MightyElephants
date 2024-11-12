@@ -1,39 +1,43 @@
 package dev.mightyelephants.backend.model;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
-@Table(name = "deliveries")
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
+@Entity
+@Table(name = "deliveries")
 public class Delivery {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long deliveryId;
+    private Long id;
 
     @Column(nullable = false)
-    private String status;
+    private String customerName;
 
-    @Column(nullable = false, unique = true)
-    private String trackingNumber;
+    @Column(nullable = false)
+    private String customerEmail;
 
-    @ManyToOne
-    @JoinColumn(name = "sender_id", nullable = false)
-    private Sender sender;
+    @Column(nullable = false)
+    private Long shippingLabelId;
 
-    @ManyToOne
-    @JoinColumn(name = "recipient_id", nullable = false)
-    private Recipient recipient;
+    @Column(nullable = true)
+    private Long deliveryManId; // Placeholder, we'll manage this later
 
-    public Delivery() {
-    }
+    @Column(nullable = false)
+    private boolean isActive = true; // Defaults to active at creation
 
-    public Delivery(String status, String trackingNumber, Sender sender, Recipient recipient) {
-        this.status = status;
-        this.trackingNumber = trackingNumber;
-        this.sender = sender;
-        this.recipient = recipient;
+    // Default constructor
+    public Delivery() {}
+
+    // Parameterized constructor
+    public Delivery(String customerName, String customerEmail, Long shippingLabelId) {
+        this.customerName = customerName;
+        this.customerEmail = customerEmail;
+        this.shippingLabelId = shippingLabelId;
     }
 }
