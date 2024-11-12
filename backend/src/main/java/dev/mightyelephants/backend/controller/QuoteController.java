@@ -1,19 +1,15 @@
 package dev.mightyelephants.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import dev.mightyelephants.backend.model.Quote;
-import dev.mightyelephants.backend.model.ShippingLabel;
-import dev.mightyelephants.backend.model.Payment;
 import org.springframework.http.ResponseEntity;
 import dev.mightyelephants.backend.service.QuoteService;
 import dev.mightyelephants.backend.service.PaymentService;
 import org.springframework.web.bind.annotation.*;
-import dev.mightyelephants.backend.service.QuoteRequest;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
+
 @RestController
 @RequestMapping("/api/quote")
 public class QuoteController {
@@ -25,14 +21,21 @@ public class QuoteController {
         this.quoteService = quoteService;
         this.paymentService = paymentService;
     }
-    @CrossOrigin(origins = "http://localhost:4200/quote-request")
+
+    @PostMapping("/quote-requests")
+    public ResponseEntity<Long> saveRequest(@RequestBody Object quoteRequest) {
+       Quote savedQuote = quoteService.saveQuote((Quote) quoteRequest);
+        return ResponseEntity.ok(savedQuote.getId());
+    }
+
+   /* @CrossOrigin(origins = "http://localhost:4200/quote-request")
     @PostMapping("/options")
     public ResponseEntity<List<Quote>> getShippingOptions(@RequestBody QuoteRequest quoteRequest) {
         System.out.println("Received quote request: " + quoteRequest);
         List<Quote> options = quoteService.calculateShippingOptions(quoteRequest);
         System.out.println("Shipping options generated: " + options);
         return ResponseEntity.ok(options);
-    }
+    }*/
 
    /* @PostMapping("/select/pay")
     public ResponseEntity<ShippingLabel> selectQuoteAndPay(
