@@ -1,0 +1,104 @@
+<div class="quote-request-container">
+  <h2>Quote Request Information</h2>
+
+  <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()" class="quote-request-form">
+    <div class="form-group">
+      <label for="origin">Origin</label>
+      <input
+        id="origin"
+        type="text"
+        formControlName="origin"
+        placeholder="Enter origin address"
+      />
+      <div *ngIf="isFieldInvalid('origin')" class="error-message">
+        Please enter a valid origin.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="destination">Destination</label>
+      <input
+        id="destination"
+        type="text"
+        formControlName="destination"
+        placeholder="Enter destination address"
+      />
+      <div *ngIf="isFieldInvalid('destination')" class="error-message">
+        Please enter a valid destination.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="length">Length (cm)</label>
+      <input
+        id="length"
+        type="number"
+        formControlName="length"
+        placeholder="Enter length in cm"
+        min="0"
+        (input)="updateWeight()"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="width">Width (cm)</label>
+      <input
+        id="width"
+        type="number"
+        formControlName="width"
+        placeholder="Enter width in cm"
+        min="0"
+        (input)="updateWeight()"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="height">Height (cm)</label>
+      <input
+        id="height"
+        type="number"
+        formControlName="height"
+        placeholder="Enter height in cm"
+        min="0"
+        (input)="updateWeight()"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="weight">Weight (kg)</label>
+      <input
+        id="weight"
+        type="number"
+        formControlName="weight"
+        placeholder="Enter weight in kg"
+        min="0"
+        readonly
+      />
+      <div *ngIf="isFieldInvalid('weight')" class="error-message">
+        Please enter a valid weight.
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="quoteForm.invalid" class="submit-button">
+      Request Quote
+    </button>
+  </form>
+
+  <div *ngIf="shippingOptions && shippingOptions.length > 0" class="shipping-options-container">
+    <h3>Available Shipping Options</h3>
+    <div *ngFor="let option of shippingOptions" class="option-card" [class.selected]="option === selectedOption">
+      <div class="option-details">
+        <p><strong>Shipping Type:</strong> {{ option.shippingType }}</p>
+        <p><strong>Price:</strong> ${{ option.price }}</p>
+        <p><strong>Estimated Delivery:</strong> {{ option.estimatedDelivery }}</p>
+      </div>
+      <button (click)="selectOption(option)" [disabled]="option === selectedOption">Select</button>
+    </div>
+
+    <div class="pay-button-container" *ngIf="selectedOption">
+      <button (click)="onPay()">Pay</button>
+    </div>
+  </div>
+
+</div>
+

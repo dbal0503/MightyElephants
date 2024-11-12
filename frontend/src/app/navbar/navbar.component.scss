@@ -34,8 +34,26 @@
         cursor: pointer;
         color: #fff;
       }
+
+      .nav-welcome {
+        margin-right: 20px;
+        margin-left: 10px;
+        font-size: 18px;
+        cursor: default;
+        color: #fff;
+      }
   
       .sign-in-btn {
+        padding: 8px 16px;
+        font-size: 16px;
+        background-color: #0069d9;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .sign-out-btn {
         padding: 8px 16px;
         font-size: 16px;
         background-color: #0069d9;
@@ -48,6 +66,11 @@
       .sign-in-btn:hover {
         background-color: #0056b3;
       }
+
+      .sign-out-btn:hover {
+        background-color: #0056b3;
+      }
+
     }
   }
   
