@@ -3,7 +3,6 @@ import java.util.UUID;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import dev.mightyelephants.backend.service.QuoteRequest;
 
 import java.time.LocalDate;
 
@@ -25,9 +24,9 @@ public class ExpressShippingLabel extends ShippingLabel {
     private String estimatedDelivery="1-2 Business Days";
     private LocalDate dateIssued = LocalDate.now();
 
-    public ExpressShippingLabel(Quote quote, QuoteRequest request) {
-        this.origin = request.getOrigin();
-        this.destination = request.getDestination();
+    public ExpressShippingLabel(Quote quote) {
+        this.origin = quote.getOrigin();
+        this.destination = quote.getDestination();
         this.weight = quote.getWeight();
         this.price = quote.getPrice();
     }
