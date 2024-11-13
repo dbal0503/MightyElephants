@@ -31,10 +31,13 @@ public class TrackingController {
     public ResponseEntity<Void> startTracking(@RequestBody Map<String, String> payload) {
         String trackingNumber = payload.get("trackingNumber");
         String startAddress = payload.get("startAddress");
+        System.out.println("startAddress: " + startAddress);
         String endAddress = payload.get("endAddress");
 
         double[] startCoords = geocodingService.geocodeAddress(startAddress);
+        System.out.println("found start address");
         double[] endCoords = geocodingService.geocodeAddress(endAddress);
+        System.out.println("found end address");
 
         Map<String, Object> routeData = routingService.getRoute(startCoords, endCoords);
         List<double[]> routeCoordinates = extractCoordinates(routeData);
