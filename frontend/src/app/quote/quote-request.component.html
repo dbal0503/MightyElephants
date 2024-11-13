@@ -1,3 +1,5 @@
+
+
 <div class="quote-request-container">
   <h2>Quote Request Information</h2>
 
@@ -96,7 +98,7 @@
     </div>
 
     <div class="pay-button-container" *ngIf="selectedOption">
-      <button (click)="onPay()">Pay</button>
+      <button (click)="onPay() [disabled]="isPaying"">Pay</button>
     </div>
   </div>
 
