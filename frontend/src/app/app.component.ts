@@ -5,6 +5,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { QuoteRequestComponent } from './quote/quote-request.component';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,7 @@ import { FormsModule } from '@angular/forms';
     SignInComponent,
     QuoteRequestComponent,
     SignInComponent, 
-    FormsModule
+    FormsModule,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
