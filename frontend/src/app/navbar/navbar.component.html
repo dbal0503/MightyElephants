@@ -6,7 +6,15 @@
     <div class="navbar-right">
       <a routerLink="live-tracking"><span class="nav-link">Tracking</span></a>
       <span class="nav-link">About</span>
-      <button class="sign-in-btn" (click)="openSignInModal()">Sign In</button>
+
+        <!-- Show Sign In button if the user is not signed in -->
+      <button *ngIf="!isSignedIn" class="sign-in-btn" (click)="openSignInModal()">Sign In</button>
+
+      <!-- Show user info and Sign Out button if the user is signed in -->
+      <div *ngIf="isSignedIn" class="user-info">
+        <span class="nav-welcome">Welcome, <b>{{ userName }}</b></span>
+        <button class="sign-out-btn" (click)="signOut()">Sign Out</button>
+      </div>
     </div>
   </nav>
   

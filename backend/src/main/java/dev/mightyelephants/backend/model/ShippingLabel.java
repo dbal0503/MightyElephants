@@ -1,4 +1,5 @@
 package dev.mightyelephants.backend.model;
+import java.util.UUID;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +8,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "shipping_labels")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Getter
 @Setter
 public class ShippingLabel {
@@ -15,37 +17,46 @@ public class ShippingLabel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String originalAddress;
-
-    @Column(nullable = false)
-    private String packageDimensions;
-
-    @Column(nullable = false)
-    private String destinationAddress;
-
-    @Column(nullable = false)
-    private LocalDate date;
-
     @Column(nullable = false, unique = true)
     private String trackingNumber;
 
     @Column(nullable = false)
-    private String returnAddress;
+    private String origin;
 
     @Column(nullable = false)
-    private String phoneNumber;
+    private String destination;
+
+    @Column(nullable = false)
+    private double weight;
+
+    @Column(nullable = false)
+    private String shippingType;
+
+    @Column(nullable = false)
+    private double price;
+
+    @Column(nullable = false)
+    private String estimatedDelivery;
+
+    @Column(nullable = false)
+    private LocalDate dateIssued;
 
     public ShippingLabel() {
+        this.trackingNumber = generateTrackingNumber();
+        this.dateIssued = LocalDate.now();
     }
 
-    public ShippingLabel(String originalAddress, String packageDimensions, String destinationAddress, LocalDate date, String trackingNumber, String returnAddress, String phoneNumber) {
-        this.originalAddress = originalAddress;
-        this.packageDimensions = packageDimensions;
-        this.destinationAddress = destinationAddress;
-        this.date = date;
-        this.trackingNumber = trackingNumber;
-        this.returnAddress = returnAddress;
-        this.phoneNumber = phoneNumber;
+    public ShippingLabel(String origin, String destination, double weight, String shippingType, double price, String estimatedDelivery) {
+        this.origin = origin;
+        this.destination = destination;
+        this.weight = weight;
+        this.shippingType = shippingType;
+        this.price = price;
+        this.estimatedDelivery = estimatedDelivery;
+        this.trackingNumber = generateTrackingNumber();
+        this.dateIssued = LocalDate.now();
+    }
+    private String generateTrackingNumber() {
+        return UUID.randomUUID().toString();
     }
 }

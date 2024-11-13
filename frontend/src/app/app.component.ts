@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { QuoteRequestComponent } from './quote/quote-request.component';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -12,6 +13,8 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     RouterOutlet,
     NavbarComponent,
+    SignInComponent,
+    QuoteRequestComponent,
     SignInComponent, 
     FormsModule
   ],
@@ -19,8 +22,9 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  showSignInModal = false;
-
+  
+  public showSignInModal = false;
+  
   openSignInModal() {
     this.showSignInModal = true;
   }
