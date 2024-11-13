@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import dev.mightyelephants.backend.repository.ShippingLabelRepository;
 import dev.mightyelephants.backend.model.ShippingLabel;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,11 +27,16 @@ public class QuoteService {
     public Quote saveQuote(Quote quoteRequest){
         Quote quote = new Quote();
         quote.setOrigin(quoteRequest.getOrigin());
+        quote.setOriginLat(quoteRequest.getOriginLat());
+        quote.setOriginLong(quoteRequest.getOriginLong());
         quote.setDestination(quoteRequest.getDestination());
-        quote.setDate(quoteRequest.getDate());
+        quote.setDestinationLat(quoteRequest.getDestinationLat());
+        quote.setDestinationLong(quoteRequest.getDestinationLong());
+        quote.setDate(LocalDate.now());
         quote.setPrice(quoteRequest.getPrice());
         quote.setShippingType(quoteRequest.getShippingType());
         quote.setWeight(quoteRequest.getWeight());
+        quote.setEstimatedDelivery(quoteRequest.getEstimatedDelivery());
         return quoteRepository.save(quote);
     }
 
