@@ -30,7 +30,7 @@ public class DeliveryMan {
     private String driverShippingType; // Can be "Express" or "Standard"
 
     @Column(nullable = false)
-    private boolean isAvailable;
+    private boolean IsAvailable;
 
     // Default constructor
     public DeliveryMan() {}
@@ -41,7 +41,7 @@ public class DeliveryMan {
         this.packageCapacity = packageCapacity;
         this.originOfficeLocation = originOfficeLocation;
         this.driverShippingType = driverShippingType;
-        this.isAvailable = true;
+        this.IsAvailable = true;
         this.numberOfPackages = 0; // Initialize with zero packages
     }
 }

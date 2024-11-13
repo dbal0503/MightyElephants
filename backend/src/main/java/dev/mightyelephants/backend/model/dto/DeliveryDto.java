@@ -8,7 +8,10 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class DeliveryDto {
-    private String customerName;
-    private String customerEmail;
     private Long shippingLabelId;
+    private String customerName;
+    private String origin;
+    private String status;
+    private String deliveryType;
 }
+

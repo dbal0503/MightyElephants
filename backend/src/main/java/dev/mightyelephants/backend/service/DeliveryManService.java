@@ -22,11 +22,28 @@ public class DeliveryManService {
                 originOfficeLocation, driverShippingType, isAvailable);
     }
 
+//    Make it not available after every delivery, delivers right away
     public void assignDelivery(DeliveryMan deliveryMan) {
         deliveryMan.setIsAvailable(false); // Mark as unavailable if needed
         deliveryMan.setNumberOfPackages(deliveryMan.getNumberOfPackages() + 1);
         deliveryManRepository.save(deliveryMan);
     }
+
+    //delivers once capacity filled (allows more packages, going to have to switch to this, but probably
+    //going to have to put a scheduling method so that it
+//    public void assignDelivery(DeliveryMan deliveryMan) {
+//        if (deliveryMan.getNumberOfPackages() < deliveryMan.getPackageCapacity()) {
+//            deliveryMan.setNumberOfPackages(deliveryMan.getNumberOfPackages() + 1);
+//
+//            if (deliveryMan.getNumberOfPackages() == deliveryMan.getPackageCapacity()) {
+//                deliveryMan.setIsAvailable(false);
+//            }
+//
+//            deliveryManRepository.save(deliveryMan);
+//        } else {
+//            throw new RuntimeException("DeliveryMan has reached maximum package capacity.");
+//        }
+//    }
 
 
 }

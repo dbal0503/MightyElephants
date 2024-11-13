@@ -29,8 +29,9 @@ public class DeliveryQueueService {
 
         for (Delivery delivery : queuedDeliveries) {
             Optional<DeliveryMan> availableDeliveryMan = deliveryManService.getAvailableDeliveryMan(
-                    delivery.getOriginOfficeLocation(), delivery.getDriverShippingType(), true);
+                    delivery.getOrigin(), delivery.getDeliveryType(), true);
 
+            //would have to check that number of packages < max package capacity
             if (availableDeliveryMan.isPresent()) {
                 DeliveryMan deliveryMan = availableDeliveryMan.get();
                 delivery.setDeliveryManId(deliveryMan.getId());

@@ -25,12 +25,24 @@ public class DeliveryController {
     public ResponseEntity<Delivery> createDelivery(@RequestBody DeliveryDto deliveryRequest){
         try {
             Delivery delivery = deliveryService.createDelivery(
+                    deliveryRequest.getShippingLabelId(),
                     deliveryRequest.getCustomerName(),
-                    deliveryRequest.getCustomerEmail(),
-                    deliveryRequest.getShippingLabelId()
+                    deliveryRequest.getOrigin(),
+                    deliveryRequest.getDeliveryType()
             );
             return ResponseEntity.status(HttpStatus.CREATED).body(delivery);
         } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PutMapping("/complete")
+    public ResponseEntity<Void> completeDelivery(@RequestParam Long shippingLabelId){
+        try {
+            deliveryService.completeDelivery(shippingLabelId);
+            return ResponseEntity.ok().build();
+        }
+        catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

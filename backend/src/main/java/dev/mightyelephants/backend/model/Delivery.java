@@ -12,12 +12,17 @@ import java.time.LocalDateTime;
 @Table(name = "deliveries")
 public class Delivery {
 
+    //A BUNCH of this information will just be taken using shipping label
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
     private String customerName;
+
+    @Column(nullable = false)
+    private String deliveryType;
 
     @Column(nullable = false)
     private Long shippingLabelId;
@@ -35,10 +40,11 @@ public class Delivery {
     public Delivery() {}
 
     // Parameterized constructor
-    public Delivery(String customerName, Long shippingLabelId, String status, String origin) {
-        this.customerName = customerName;
+    public Delivery(Long shippingLabelId, String customerName, String origin, String status, String deliveryType) {
         this.shippingLabelId = shippingLabelId;
-        this.status = status;
+        this.customerName = customerName;
         this.origin = origin;
+        this.status = status;
+        this.deliveryType = deliveryType;
     }
 }
