@@ -23,9 +23,9 @@ public class QuoteController {
     }
 
     @PostMapping("/save-request")
-    public ResponseEntity<Long> saveRequest(@RequestBody Object quoteRequest) {
+    public ResponseEntity<Long> saveRequest(@RequestBody Quote quoteRequest) {
         System.out.println("Received quote request: " + quoteRequest);
-        Quote savedQuote = quoteService.saveQuote((Quote) quoteRequest);
+        Quote savedQuote = quoteService.saveQuote(quoteRequest);
         return ResponseEntity.ok(savedQuote.getId());
     }
 
