@@ -20,24 +20,25 @@ public class Delivery {
     private String customerName;
 
     @Column(nullable = false)
-    private String customerEmail;
-
-    @Column(nullable = false)
     private Long shippingLabelId;
 
     @Column(nullable = true)
     private Long deliveryManId; // Placeholder, we'll manage this later
 
     @Column(nullable = false)
-    private boolean isActive = true; // Defaults to active at creation
+    private String origin;
+
+    @Column(nullable = false)
+    private String status;
 
     // Default constructor
     public Delivery() {}
 
     // Parameterized constructor
-    public Delivery(String customerName, String customerEmail, Long shippingLabelId) {
+    public Delivery(String customerName, Long shippingLabelId, String status, String origin) {
         this.customerName = customerName;
-        this.customerEmail = customerEmail;
         this.shippingLabelId = shippingLabelId;
+        this.status = status;
+        this.origin = origin;
     }
 }
