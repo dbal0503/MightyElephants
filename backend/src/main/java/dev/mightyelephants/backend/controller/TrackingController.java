@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,23 +29,26 @@ public class TrackingController {
     private TrackingService trackingService;
 
     @PostMapping("/start-tracking")
-    public ResponseEntity<Void> startTracking(@RequestBody Map<String, String> payload) {
+    public ResponseEntity<Map<String, Object>> startTracking(@RequestBody Map<String, String> payload) {
         String trackingNumber = payload.get("trackingNumber");
         String startAddress = payload.get("startAddress");
-        System.out.println("startAddress: " + startAddress);
         String endAddress = payload.get("endAddress");
 
         double[] startCoords = geocodingService.geocodeAddress(startAddress);
-        System.out.println("found start address");
         double[] endCoords = geocodingService.geocodeAddress(endAddress);
-        System.out.println("found end address");
 
         Map<String, Object> routeData = routingService.getRoute(startCoords, endCoords);
         List<double[]> routeCoordinates = extractCoordinates(routeData);
 
         trackingService.startTracking(trackingNumber, routeCoordinates);
-        return ResponseEntity.ok().build();
+
+        // Prepare the response with route coordinates
+        Map<String, Object> response = new HashMap<>();
+        response.put("routeCoordinates", routeCoordinates);
+
+        return ResponseEntity.ok(response);
     }
+
 
     private List<double[]> extractCoordinates(Map<String, Object> routeData) {
         List<double[]> coordinatesList = new ArrayList<>();

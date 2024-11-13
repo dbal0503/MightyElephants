@@ -29,10 +29,10 @@ public class SpringConfiguration  {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:4200")); // Allow all origins
+        configuration.addAllowedOriginPattern("*"); // Allow all origins
         configuration.setAllowedMethods(Arrays.asList("*"));        // Allow all HTTP methods
         configuration.setAllowedHeaders(Arrays.asList("*"));        // Allow all headers
-//        configuration.setAllowCredentials(true);                    // Allow credentials if needed
+        configuration.setAllowCredentials(true);                    // Allow credentials if needed
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
