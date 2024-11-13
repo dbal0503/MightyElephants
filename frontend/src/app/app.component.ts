@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { QuoteRequestComponent } from './quote/quote-request.component';
-
+import { environment } from '../environments/environment';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -19,7 +19,8 @@ import { QuoteRequestComponent } from './quote/quote-request.component';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  showSignInModal = false;
+
+  public showSignInModal = false;
 
   openSignInModal() {
     this.showSignInModal = true;
@@ -28,4 +29,21 @@ export class AppComponent {
   closeSignInModal() {
     this.showSignInModal = false;
   }
+  ngOnInit() {
+    if (typeof window !== 'undefined') {
+      this.loadGoogleMapsAPI();
+    }
+  }
+
+
+  loadGoogleMapsAPI() {
+    if (typeof document !== 'undefined') {
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${environment.API_KEY}&libraries=places`;
+      script.async = true;
+      script.defer = true;
+      document.body.appendChild(script);
+    }
+  }
+
 }
