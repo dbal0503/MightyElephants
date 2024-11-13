@@ -4,10 +4,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-// Remove the top-level Leaflet import
-// import * as L from 'leaflet'; // Removed
-
-// Import SockJS and StompJS for WebSocket communication
 import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
 
@@ -18,8 +14,8 @@ import { Client } from '@stomp/stompjs';
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,        // Import FormsModule for ngModel
-    HttpClientModule    // Import HttpClientModule for HttpClient
+    FormsModule,      
+    HttpClientModule 
   ]
 })
 export class LiveTrackingComponent implements AfterViewInit {
@@ -39,7 +35,6 @@ export class LiveTrackingComponent implements AfterViewInit {
     if (typeof window !== 'undefined') {
       const L = await import('leaflet');
 
-      // Fix icon paths (Leaflet uses images for markers)
       this.fixLeafletIconPaths(L);
 
       this.map = L.map('map').setView([45.495247, -73.578582], 13);
@@ -53,14 +48,10 @@ export class LiveTrackingComponent implements AfterViewInit {
   }
 
   private fixLeafletIconPaths(L: any) {
-    // Fix for default icon paths
-    const iconRetinaUrl = 'assets/marker-icon-2x.png';
-    const iconUrl = 'assets/marker-icon.png';
-    const shadowUrl = 'assets/marker-shadow.png';
+
+    const iconUrl = 'frontend\public\assets\marker.png';
     L.Icon.Default.mergeOptions({
-      iconRetinaUrl,
       iconUrl,
-      shadowUrl
     });
   }
 
@@ -68,19 +59,35 @@ export class LiveTrackingComponent implements AfterViewInit {
     if (typeof window !== 'undefined') {
       const payload = {
         trackingNumber: this.trackingNumber,
-        startAddress: 'Your Start Address',
-        endAddress: 'Your End Address'
+        startAddress: '1555 Rene-Levesque Blvd W, Montreal, QC H3G 0G9',
+        endAddress: '790 William St, Montreal, QC H3C 0Y4'
       };
-
-      this.http.post('http://localhost:8080/start-tracking', payload).subscribe(() => {
+  
+      const token = localStorage.getItem('id_token');
+      const headers = { 'Authorization': 'Bearer ' + token };
+  
+      this.http.post('http://localhost:8080/start-tracking', payload, { headers }).subscribe((response: any) => {
         this.connectWebSocket();
+        const routeCoordinates = response.routeCoordinates;
+        this.drawRoute(routeCoordinates);
       });
-      
     }
   }
+  private async drawRoute(routeCoordinates: number[][]) {
+    if (typeof window !== 'undefined') {
+      const L = await import('leaflet');
+  
+      const latLngs: [number, number][] = routeCoordinates.map(coord => [coord[0], coord[1]] as [number, number]); // [latitude, longitude]
+  
+      L.polyline(latLngs, { color: 'blue' }).addTo(this.map);
+    }
+  }
+    
 
   private connectWebSocket() {
     if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('id_token');
+      //add token to header of sockjs
       const socket = new SockJS('http://localhost:8080/ws');
       this.stompClient = new Client({
         webSocketFactory: () => socket,
@@ -104,16 +111,25 @@ export class LiveTrackingComponent implements AfterViewInit {
       this.updateMarker(latitude, longitude);
     }
   }
-
   private async updateMarker(lat: number, lng: number) {
     if (typeof window !== 'undefined') {
       const L = await import('leaflet');
+  
       if (this.marker) {
         this.marker.setLatLng([lat, lng]);
       } else {
-        this.marker = L.marker([lat, lng]).addTo(this.map);
+        const myIcon = L.icon({
+          iconUrl: 'assets/marker.png',
+          iconRetinaUrl: 'assets/marker.png',
+          iconSize: [25, 25],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+        });
+  
+        this.marker = L.marker([lat, lng], { icon: myIcon }).addTo(this.map);
       }
       this.map.setView([lat, lng], this.map.getZoom());
     }
   }
+  
 }
