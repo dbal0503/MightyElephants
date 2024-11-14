@@ -3,7 +3,6 @@ package dev.mightyelephants.backend.service;
 import dev.mightyelephants.backend.model.Quote;
 import dev.mightyelephants.backend.repository.QuoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import dev.mightyelephants.backend.repository.ShippingLabelRepository;
 import dev.mightyelephants.backend.model.ShippingLabel;
@@ -11,6 +10,7 @@ import dev.mightyelephants.backend.model.ShippingLabel;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class QuoteService {
@@ -49,6 +49,10 @@ public class QuoteService {
         options.add(QuoteFactory.createExpressQuote(weight));
 
         return options;
+    }
+
+    public Optional<Quote> getQuoteById(Long id) {
+        return quoteRepository.findById(id);
     }
 
     public ShippingLabel generateShippingLabelAfterPayment(Quote selectedQuote) {

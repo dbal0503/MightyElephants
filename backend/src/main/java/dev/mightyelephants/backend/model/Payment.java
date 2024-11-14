@@ -9,18 +9,19 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "payments")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "payment_method_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "amount", nullable = false)
-    private double amount;
-
     @Column(name = "payment_date", nullable = false)
     private LocalDateTime paymentDate;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "quote_id", nullable = false)
+    private Quote quote;
 
     @Column(name = "status")
     private String status;
