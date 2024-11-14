@@ -4,7 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { QuoteRequestComponent } from './quote/quote-request.component';
-//import { environment } from '../environments/environment';
+import { environment } from '../environments/environment';
 import { ShippingLabelComponent} from "./shippinglabel/shippinglabel.component";
 @Component({
   selector: 'app-root',
@@ -41,7 +41,7 @@ export class AppComponent {
   loadGoogleMapsAPI() {
     if (typeof document !== 'undefined') {
       const script = document.createElement('script');
-    //  script.src = `https://maps.googleapis.com/maps/api/js?key=${environment.API_KEY}&libraries=places`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${environment.API_KEY}&libraries=places`;
       script.async = true;
       script.defer = true;
       document.body.appendChild(script);
