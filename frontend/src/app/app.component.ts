@@ -4,6 +4,8 @@ import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { QuoteRequestComponent } from './quote/quote-request.component';
+import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 // import { environment } from '../environments/environment';
 import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
 import { ShippingLabelComponent } from './shippinglabel/shippinglabel.component';
@@ -17,6 +19,8 @@ import { ShippingLabelComponent } from './shippinglabel/shippinglabel.component'
     NavbarComponent,
     SignInComponent,
     QuoteRequestComponent,
+    SignInComponent, 
+    FormsModule,
     ChatWidgetComponent,
     ShippingLabelComponent,
   ],
