@@ -19,32 +19,36 @@ public class Delivery {
     private Long id;
 
     @Column(nullable = false)
-    private String customerName;
-
-    @Column(nullable = false)
-    private String deliveryType;
-
-    @Column(nullable = false)
     private Long shippingLabelId;
 
-    @Column(nullable = true)
-    private Long deliveryManId; // Placeholder, we'll manage this later
+    @Column(nullable = false)
+    private String sender;
+
+    @Column(nullable = false)
+    private String shippingType;
 
     @Column(nullable = false)
     private String origin;
 
     @Column(nullable = false)
+    private String destination;
+
+    @Column(nullable = false)
     private String status;
+
+    @Column(nullable = true)
+    private Long deliveryManId; // Placeholder, we'll manage this later
 
     // Default constructor
     public Delivery() {}
 
     // Parameterized constructor
-    public Delivery(Long shippingLabelId, String customerName, String origin, String status, String deliveryType) {
+    public Delivery(Long shippingLabelId, String sender, String origin, String destination, String status, String shippingType) {
         this.shippingLabelId = shippingLabelId;
-        this.customerName = customerName;
+        this.sender = sender;
+        this.shippingType = shippingType;
         this.origin = origin;
+        this.destination = destination;
         this.status = status;
-        this.deliveryType = deliveryType;
     }
 }

@@ -25,14 +25,14 @@ public class DeliveryService {
         this.deliveryManRepository = deliveryManRepository;
     }
 
-    public Delivery createDelivery(Long shippingLabelId, String customerName, String origin, String deliveryType) {
+    public Delivery createDelivery(Long shippingLabelId, String sender, String origin, String destination, String shippingType) {
 
-        Optional<DeliveryMan> availableDeliveryMan = deliveryManService.getAvailableDeliveryMan(origin, deliveryType, true);
+        Optional<DeliveryMan> availableDeliveryMan = deliveryManService.getAvailableDeliveryMan(origin, shippingType, true);
 
         String status = availableDeliveryMan.isPresent() ? "IN_PROGRESS" : "QUEUED";
         Long deliveryManId = availableDeliveryMan.map(DeliveryMan::getId).orElse(null);
 
-        Delivery delivery = new Delivery(shippingLabelId, customerName, origin, status, deliveryType);
+        Delivery delivery = new Delivery(shippingLabelId, sender, origin, destination, status, shippingType);
         delivery.setDeliveryManId(deliveryManId);
 
         availableDeliveryMan.ifPresent(deliveryManService::assignDelivery);

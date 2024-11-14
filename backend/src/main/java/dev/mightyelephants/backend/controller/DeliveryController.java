@@ -1,7 +1,6 @@
 package dev.mightyelephants.backend.controller;
 
 import dev.mightyelephants.backend.model.Delivery;
-import dev.mightyelephants.backend.model.dto.DeliveryDto;
 import dev.mightyelephants.backend.service.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,13 +21,14 @@ public class DeliveryController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Delivery> createDelivery(@RequestBody DeliveryDto deliveryRequest){
+    public ResponseEntity<Delivery> createDelivery(@RequestBody Delivery deliveryRequest){
         try {
             Delivery delivery = deliveryService.createDelivery(
                     deliveryRequest.getShippingLabelId(),
-                    deliveryRequest.getCustomerName(),
+                    deliveryRequest.getSender(),
+                    deliveryRequest.getShippingType(),
                     deliveryRequest.getOrigin(),
-                    deliveryRequest.getDeliveryType()
+                    deliveryRequest.getDestination()
             );
             return ResponseEntity.status(HttpStatus.CREATED).body(delivery);
         } catch(Exception e){

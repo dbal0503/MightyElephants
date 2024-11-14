@@ -17,9 +17,9 @@ public class DeliveryManService {
         this.deliveryManRepository = deliveryManRepository;
     }
 
-    public Optional<DeliveryMan> getAvailableDeliveryMan(String originOfficeLocation, String driverShippingType, boolean isAvailable) {
-        return deliveryManRepository.findFirstByOriginOfficeLocationAndDriverShippingTypeAndIsAvailable(
-                originOfficeLocation, driverShippingType, isAvailable);
+    public Optional<DeliveryMan> getAvailableDeliveryMan(String origin, String driverShippingType, boolean isAvailable) {
+        return deliveryManRepository.findFirstByOriginAndDriverShippingTypeAndIsAvailable(
+                origin, driverShippingType, isAvailable);
     }
 
 //    Make it not available after every delivery, delivers right away

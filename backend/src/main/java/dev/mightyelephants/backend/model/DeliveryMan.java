@@ -24,7 +24,10 @@ public class DeliveryMan {
     private int packageCapacity;
 
     @Column(nullable = false)
-    private String originOfficeLocation;
+    private String origin;
+
+    @Column(nullable = false)
+    private String destination;
 
     @Column(nullable = false)
     private String driverShippingType; // Can be "Express" or "Standard"
@@ -36,10 +39,11 @@ public class DeliveryMan {
     public DeliveryMan() {}
 
     // Parameterized constructor
-    public DeliveryMan(Long vehicleId, int packageCapacity, String originOfficeLocation, String driverShippingType) {
+    public DeliveryMan(Long vehicleId, int packageCapacity, String origin, String destination, String driverShippingType) {
         this.vehicleId = vehicleId;
         this.packageCapacity = packageCapacity;
-        this.originOfficeLocation = originOfficeLocation;
+        this.origin = origin;
+        this.destination = destination;
         this.driverShippingType = driverShippingType;
         this.IsAvailable = true;
         this.numberOfPackages = 0; // Initialize with zero packages
