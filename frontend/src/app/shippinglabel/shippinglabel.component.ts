@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders,HttpClientModule } from '@angular/common/http';
+import {ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-shippinglabel',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
   templateUrl: './shippinglabel.component.html',
   styleUrls: ['./shippinglabel.component.scss']
 })
@@ -20,6 +21,17 @@ export class ShippingLabelComponent implements OnInit {
   constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router) { }
 
   ngOnInit(): void {
+    //tempDetails:
+    this.shippingLabelDetails = {
+      trackingNumber: "1234567890",
+      origin: "New York, NY",
+      destination: "Los Angeles, CA",
+      weight: 2.5,
+      shippingType: "Express",
+      price: 19.99,
+      estimatedDelivery: new Date('2024-11-20'),
+      dateIssued: new Date('2024-11-14')}
+
     this.route.queryParams.subscribe(params => {
       this.paymentId = params['paymentId'];
       this.quoteId = params['quoteId'];
@@ -30,8 +42,8 @@ export class ShippingLabelComponent implements OnInit {
         this.isLoading = false;
         return;
       }
-
       this.createShippingLabel();
+
     });
   }
 
