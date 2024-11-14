@@ -50,6 +50,12 @@ public class Quote {
     @Column(nullable = false)
     private double weight;
 
+    @Column(nullable = false)
+    private String recipient;
+
+    @Column(nullable = false)
+    private String sender;
+
 
     public Quote() {
     }

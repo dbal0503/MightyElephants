@@ -11,7 +11,17 @@ import java.time.LocalDate;
 @Setter
 @DiscriminatorValue("EXPRESS")
 public class ExpressShippingLabel extends ShippingLabel {
+    public ExpressShippingLabel(Quote quote, Payment payment) {
+        super(quote.getOrigin(), quote.getDestination(), quote.getWeight(), quote.getShippingType(), quote.getEstimatedDelivery(), quote.getSender(), quote.getRecipient(), quote, payment);
+        this.setTrackingNumber(generateTrackingNumber());
+    }
+    public ExpressShippingLabel() {
+    }
 
+    private String generateTrackingNumber() {
+        return "EXP-" + UUID.randomUUID().toString();
+    }
+/*
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,7 +34,7 @@ public class ExpressShippingLabel extends ShippingLabel {
     private String estimatedDelivery="1-2 Business Days";
     private LocalDate dateIssued = LocalDate.now();
 
-    public ExpressShippingLabel(Quote quote) {
+    public ExpressShippingLabel(Quote quote, Payment payment) {
         this.origin = quote.getOrigin();
         this.destination = quote.getDestination();
         this.weight = quote.getWeight();
@@ -37,5 +47,5 @@ public class ExpressShippingLabel extends ShippingLabel {
 
     private String generateTrackingNumber() {
         return "EXP-" + UUID.randomUUID().toString();
-    }
+    }*/
 }

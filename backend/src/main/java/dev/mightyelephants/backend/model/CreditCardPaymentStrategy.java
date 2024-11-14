@@ -6,13 +6,14 @@ import lombok.Setter;
 @Component
 public class CreditCardPaymentStrategy implements PaymentStrategy {
     @Override
-    public Payment createPayment(double amount, Map<String, String> paymentDetails) {
+    public Payment createPayment(Quote quote, Map<String, String> paymentDetails) {
         CreditCardPayment payment = new CreditCardPayment();
-        payment.setAmount(amount);
+        payment.setQuote(quote);
         payment.setCardNumber(paymentDetails.get("cardNumber"));
         payment.setCardHolderName(paymentDetails.get("cardHolderName"));
         payment.setCvv(paymentDetails.get("cvv"));
-        payment.setExpiryDate(paymentDetails.get("expiryDate"));
+        payment.setExpiryMonth(paymentDetails.get("expiryMonth"));
+        payment.setExpiryYear(paymentDetails.get("expiryYear"));
         return payment;
     }
 }
