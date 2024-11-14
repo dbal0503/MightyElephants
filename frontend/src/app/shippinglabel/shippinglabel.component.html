@@ -1,0 +1,10 @@
+<div *ngIf="!isLoading && !isError">
+  <h1>Shipping Label Created</h1>
+  <p><strong>Tracking Number:</strong> {{ shippingLabelDetails.trackingNumber }}</p>
+  <p><strong>Origin:</strong> {{ shippingLabelDetails.origin }}</p>
+  <p><strong>Destination:</strong> {{ shippingLabelDetails.destination }}</p>
+  <p><strong>Weight:</strong> {{ shippingLabelDetails.weight }} kg</p>
+  <p><strong>Shipping Type:</strong> {{ shippingLabelDetails.shippingType }}</p>
+  <p><strong>Price:</strong> ${{ shippingLabelDetails.price }}</p>
+  <p><strong>Estimated Delivery:</strong> {{ shippingLabelDetails.estimatedDelivery }}</p>
+</div>
