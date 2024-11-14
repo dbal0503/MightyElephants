@@ -15,6 +15,7 @@ export class PaymentComponent implements OnInit {
   paymentForm: FormGroup;
   paymentMethod: 'card' | 'paypal' = 'card';
   quoteId: string | null = null;
+  paymentId: string | null = null;
   isProcessing = false;
 
   constructor(private fb: FormBuilder,
@@ -141,10 +142,27 @@ export class PaymentComponent implements OnInit {
         .subscribe({
           next: (response) => {
             console.log("Payment Id: ", response);
+            const shippindLabelData = {
+              quoteId: this.quoteId,
+              paymentId: response
+            };
+            //temporary to test the endpoint but this will need to called on the shipping label route/page
+            this.http.post('http://localhost:8080/api/shippinglabel/create', shippindLabelData, { headers })
+              .subscribe({
+                next: (response) => {
+                  console.log('Shipping label data:', response);
+                },
+                error: (error) => {
+                  console.error('Error saving quote:', error);
+                  alert('Error saving quote. Please try again later.');
+                  this.isProcessing = false;
+                }
+              });
+
             //Needs to route to shipping label page
             /*this.router.navigate(['/payment-success'], {
               queryParams: {
-                paymentId: response.paymentId,
+                paymentId: response,
                 quoteId: this.quoteId
               }
             });*/
