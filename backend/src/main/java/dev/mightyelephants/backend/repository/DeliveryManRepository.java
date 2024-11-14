@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface DeliveryManRepository extends JpaRepository<DeliveryMan, Long> {
 
-    Optional<DeliveryMan> findFirstByOriginAndDriverShippingTypeAndAvailable(
+    Optional<DeliveryMan> findFirstByHomeOfficeAddressAndDriverShippingTypeAndAvailable(
             String originOfficeLocation, String driverShippingType, boolean available);
 }

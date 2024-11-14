@@ -92,6 +92,7 @@ export class ShippingLabelComponent implements OnInit {
             shippingType: response['shippingType'],
             origin: response['origin'],
             destination: response['destination'],
+            trackingNumber: response['trackingNumber'],
           };
 
           this.http

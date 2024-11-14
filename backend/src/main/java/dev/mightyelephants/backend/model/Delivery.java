@@ -36,6 +36,9 @@ public class Delivery {
     @Column(nullable = false)
     private String status;
 
+    @Column(nullable = false,  unique = true)
+    private String trackingNumber;
+
     @Column(nullable = true)
     private Long deliveryManId; // Placeholder, we'll manage this later
 
@@ -43,12 +46,13 @@ public class Delivery {
     public Delivery() {}
 
     // Parameterized constructor
-    public Delivery(Long shippingLabelId, String sender, String origin, String destination, String status, String shippingType) {
+    public Delivery(Long shippingLabelId, String sender, String origin, String destination, String shippingType, String trackingNumber, String status) {
         this.shippingLabelId = shippingLabelId;
         this.sender = sender;
-        this.shippingType = shippingType;
         this.origin = origin;
         this.destination = destination;
+        this.shippingType = shippingType;
+        this.trackingNumber = trackingNumber;
         this.status = status;
     }
 }

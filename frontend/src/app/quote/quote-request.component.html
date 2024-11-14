@@ -1,14 +1,30 @@
 <div class="quote-request-container">
   <h2>Quote Request Information</h2>
 
-  <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()" class="quote-request-form">
+  <form
+    [formGroup]="quoteForm"
+    (ngSubmit)="onSubmit()"
+    class="quote-request-form"
+  >
+    <div class="form-group">
+      <label for="nearestDropOff"
+        >Enter your current location to find the closest drop-off office near
+        you!</label
+      >
+      <input
+        id="nearestDropOff"
+        type="text"
+        placeholder="Enter your location"
+        (focus)="findNearestDropOff('nearestDropOff')"
+      />
+    </div>
     <div class="form-group">
       <label for="origin">Origin</label>
       <input
         id="origin"
         type="text"
         formControlName="origin"
-        placeholder="Enter origin address"
+        placeholder="Closest drop-off office address"
       />
       <div *ngIf="isFieldInvalid('origin')" class="error-message">
         Please enter a valid origin.
@@ -17,7 +33,12 @@
 
     <div class="form-group">
       <label for="senderName">Sender Name</label>
-      <input id="senderName" type="text" formControlName="senderName" placeholder="Enter sender name" />
+      <input
+        id="senderName"
+        type="text"
+        formControlName="senderName"
+        placeholder="Enter sender name"
+      />
       <div *ngIf="isFieldInvalid('senderName')" class="error-message">
         Please enter a valid sender name.
       </div>
@@ -38,7 +59,12 @@
 
     <div class="form-group">
       <label for="recipientName">Recipient Name</label>
-      <input id="recipientName" type="text" formControlName="recipientName" placeholder="Enter recipient name" />
+      <input
+        id="recipientName"
+        type="text"
+        formControlName="recipientName"
+        placeholder="Enter recipient name"
+      />
       <div *ngIf="isFieldInvalid('recipientName')" class="error-message">
         Please enter a valid recipient name.
       </div>
@@ -100,21 +126,33 @@
     </button>
   </form>
 
-  <div *ngIf="shippingOptions && shippingOptions.length > 0" class="shipping-options-container">
+  <div
+    *ngIf="shippingOptions && shippingOptions.length > 0"
+    class="shipping-options-container"
+  >
     <h3>Available Shipping Options</h3>
-    <div *ngFor="let option of shippingOptions" class="option-card" [class.selected]="option === selectedOption">
+    <div
+      *ngFor="let option of shippingOptions"
+      class="option-card"
+      [class.selected]="option === selectedOption"
+    >
       <div class="option-details">
         <p><strong>Shipping Type:</strong> {{ option.shippingType }}</p>
         <p><strong>Price:</strong> ${{ option.price }}</p>
-        <p><strong>Estimated Delivery:</strong> {{ option.estimatedDelivery }}</p>
+        <p>
+          <strong>Estimated Delivery:</strong> {{ option.estimatedDelivery }}
+        </p>
       </div>
-      <button (click)="selectOption(option)" [disabled]="option === selectedOption">Select</button>
+      <button
+        (click)="selectOption(option)"
+        [disabled]="option === selectedOption"
+      >
+        Select
+      </button>
     </div>
 
     <div class="pay-button-container" *ngIf="selectedOption">
       <button (click)="onPay()" [disabled]="isPaying">Pay</button>
     </div>
   </div>
-
 </div>
-

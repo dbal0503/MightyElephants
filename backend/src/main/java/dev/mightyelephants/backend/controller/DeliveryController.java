@@ -7,8 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-
 @RestController
 @RequestMapping("/api/deliveries")
 public class DeliveryController {
@@ -26,9 +24,10 @@ public class DeliveryController {
             Delivery delivery = deliveryService.createDelivery(
                     deliveryRequest.getShippingLabelId(),
                     deliveryRequest.getSender(),
-                    deliveryRequest.getShippingType(),
                     deliveryRequest.getOrigin(),
-                    deliveryRequest.getDestination()
+                    deliveryRequest.getDestination(),
+                    deliveryRequest.getShippingType(),
+                    deliveryRequest.getTrackingNumber()
             );
             return ResponseEntity.status(HttpStatus.CREATED).body(delivery);
         } catch(Exception e){
