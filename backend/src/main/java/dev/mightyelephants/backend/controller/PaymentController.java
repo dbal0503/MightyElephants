@@ -1,6 +1,7 @@
 package dev.mightyelephants.backend.controller;
 import dev.mightyelephants.backend.model.Payment;
 //import dev.mightyelephants.backend.model.QuoteRequest;
+import dev.mightyelephants.backend.model.ShippingLabel;
 import dev.mightyelephants.backend.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -47,20 +48,5 @@ public class PaymentController {
             return ResponseEntity.badRequest().body(1000L);
         }
     }
-    /*@PostMapping("/process")
-    public ResponseEntity<Payment> processPayment(@RequestBody Object paymentRequest) {
-        try {
-            Payment payment = paymentService.processPayment(
-                    paymentRequest.getPaymentMethod(),
-                    paymentRequest.getAmount(),
-                    paymentRequest.getPaymentDetails()
-            );
 
-            return payment.getStatus().equals("COMPLETED")
-                    ? ResponseEntity.ok(payment)
-                    : ResponseEntity.badRequest().body(payment);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }*/
 }

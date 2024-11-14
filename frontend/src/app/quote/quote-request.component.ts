@@ -28,6 +28,8 @@ export class QuoteRequestComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private router: Router,  private http: HttpClient ) {
     this.quoteForm = this.fb.group({
+      senderName: ['', [Validators.required]],
+      recipientName: ['', [Validators.required]],
       origin: ['', [Validators.required]],
       destination: ['', [Validators.required]],
       length: ['', [Validators.required, Validators.min(0)]],
@@ -116,6 +118,13 @@ export class QuoteRequestComponent implements OnInit {
       console.log("Origin: ", origin);
       const destination = this.quoteForm.get('destination')?.value;
       const distance = this.distance;
+      const senderName = this.quoteForm.get('senderName')?.value;
+      const recipientName = this.quoteForm.get('recipientName')?.value;
+
+      if (!senderName || !recipientName) {
+        alert('Please enter a valid sender and recipient name.');
+        return;
+      }
 
       const standardMultiplier = 2.5;
       const expressMultiplier = 5.0;
@@ -197,8 +206,11 @@ export class QuoteRequestComponent implements OnInit {
         price: this.selectedOption.price,
         weight: this.quoteForm.get('weight')?.value,
         shippingType: this.selectedOption.shippingType,
-        estimatedDelivery: this.selectedOption.estimatedDelivery
+        estimatedDelivery: this.selectedOption.estimatedDelivery,
+        sender: this.quoteForm.get('senderName')?.value,
+        recipient: this.quoteForm.get('recipientName')?.value
       };
+      console.log(quoteData)
 
       this.http.post('http://localhost:8080/api/quote/save-request', quoteData, {headers})
         .subscribe({

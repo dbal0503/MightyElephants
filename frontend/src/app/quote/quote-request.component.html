@@ -16,6 +16,14 @@
     </div>
 
     <div class="form-group">
+      <label for="senderName">Sender Name</label>
+      <input id="senderName" type="text" formControlName="senderName" placeholder="Enter sender name" />
+      <div *ngIf="isFieldInvalid('senderName')" class="error-message">
+        Please enter a valid sender name.
+      </div>
+    </div>
+
+    <div class="form-group">
       <label for="destination">Destination</label>
       <input
         id="destination"
@@ -25,6 +33,14 @@
       />
       <div *ngIf="isFieldInvalid('destination')" class="error-message">
         Please enter a valid destination.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="recipientName">Recipient Name</label>
+      <input id="recipientName" type="text" formControlName="recipientName" placeholder="Enter recipient name" />
+      <div *ngIf="isFieldInvalid('recipientName')" class="error-message">
+        Please enter a valid recipient name.
       </div>
     </div>
 

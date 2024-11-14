@@ -37,6 +37,8 @@ public class QuoteService {
         quote.setShippingType(quoteRequest.getShippingType());
         quote.setWeight(quoteRequest.getWeight());
         quote.setEstimatedDelivery(quoteRequest.getEstimatedDelivery());
+        quote.setSender(quoteRequest.getSender());
+        quote.setRecipient(quoteRequest.getRecipient());
         return quoteRepository.save(quote);
     }
 
@@ -55,9 +57,6 @@ public class QuoteService {
         return quoteRepository.findById(id);
     }
 
-    public ShippingLabel generateShippingLabelAfterPayment(Quote selectedQuote) {
-        ShippingLabel shippingLabel = (ShippingLabel) ShippingLabelFactory.createLabel(selectedQuote);
-        return shippingLabelRepository.save(shippingLabel);
-    }
+
 }
 

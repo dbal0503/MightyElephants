@@ -2,13 +2,16 @@ package dev.mightyelephants.backend.service;
 import dev.mightyelephants.backend.model.Payment;
 import dev.mightyelephants.backend.model.Quote;
 import dev.mightyelephants.backend.model.PaymentStrategy;
+import dev.mightyelephants.backend.model.ShippingLabel;
 import dev.mightyelephants.backend.repository.PaymentRepository;
 import dev.mightyelephants.backend.repository.QuoteRepository;
+import dev.mightyelephants.backend.repository.ShippingLabelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
@@ -19,12 +22,15 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final Map<String, PaymentStrategy> paymentStrategies;
 
+    private final ShippingLabelRepository shippingLabelRepository;
+
     private QuoteService quoteService;
 
     @Autowired
-    public PaymentService( PaymentRepository paymentRepository, QuoteService quoteService, List<PaymentStrategy> strategies) {
+    public PaymentService( PaymentRepository paymentRepository, QuoteService quoteService, ShippingLabelRepository shippingLabelRepository, List<PaymentStrategy> strategies) {
         this.paymentRepository = paymentRepository;
         this.quoteService = quoteService;
+        this.shippingLabelRepository = shippingLabelRepository;
 
         // Map of the payment strategies
         this.paymentStrategies = strategies.stream()
@@ -83,4 +89,10 @@ public class PaymentService {
     public List<Payment> getPaymentsByStatus(String status) {
         return paymentRepository.findByStatus(status);
     }
+
+    public Optional <Payment> getPaymentById(long id) {
+        return Optional.ofNullable(paymentRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Payment not found with id: " + id)));
+    }
+
 }
