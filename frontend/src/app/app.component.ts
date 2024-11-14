@@ -6,6 +6,8 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { QuoteRequestComponent } from './quote/quote-request.component';
 import { environment } from '../environments/environment';
 import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
+import { ShippingLabelComponent} from "./shippinglabel/shippinglabel.component";
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -16,6 +18,7 @@ import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
     SignInComponent,
     QuoteRequestComponent,
     ChatWidgetComponent,
+    ShippingLabelComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],

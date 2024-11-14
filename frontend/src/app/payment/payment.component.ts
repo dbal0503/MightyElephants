@@ -147,25 +147,34 @@ export class PaymentComponent implements OnInit {
               paymentId: response
             };
             //temporary to test the endpoint but this will need to called on the shipping label route/page
-            this.http.post('http://localhost:8080/api/shippinglabel/create', shippindLabelData, { headers })
+           /* this.http.post('http://localhost:8080/api/shippinglabel/create', shippindLabelData, { headers })
               .subscribe({
                 next: (response) => {
-                  console.log('Shipping label data:', response);
+                  const shippingLabelData = response as { [key: string]: any };
+                  const shippingLabelId = shippingLabelData['shippingLabelId'];
+                  console.log('Shipping label data:', shippingLabelData);
+
+                  //Needs to route to shipping label page
+                  this.router.navigate(['/shippinglabel'], {
+                    queryParams: {
+                      paymentId: response,
+                      quoteId: this.quoteId,
+                      shippingLabelId: shippingLabelId
+                    }
+                  });
                 },
                 error: (error) => {
                   console.error('Error saving quote:', error);
                   alert('Error saving quote. Please try again later.');
                   this.isProcessing = false;
                 }
-              });
-
-            //Needs to route to shipping label page
-            /*this.router.navigate(['/payment-success'], {
+              });*/
+            this.router.navigate(['/shippinglabel'], {
               queryParams: {
                 paymentId: response,
-                quoteId: this.quoteId
+                quoteId: this.quoteId,
               }
-            });*/
+            });
           },
           error: (error) => {
             this.isProcessing = false;
