@@ -40,7 +40,7 @@ export class AppComponent {
   loadGoogleMapsAPI() {
     if (typeof document !== 'undefined') {
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyATPudxlLaKxZIRq3hMY9A7n4e6lrOUXoc&libraries=places`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDjwCCISHg8zYSCNqS_vDm4hzOKoRfsPOw&libraries=places`;
       script.async = true;
       script.defer = true;
       document.body.appendChild(script);

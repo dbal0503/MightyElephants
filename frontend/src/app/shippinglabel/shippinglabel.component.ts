@@ -101,14 +101,6 @@ export class ShippingLabelComponent implements OnInit {
             .subscribe({
               next: (deliveryResponse) => {
                 console.log('Delivery created:', deliveryResponse);
-
-                // Something to think about, if we want to redirect to a confirmation page and give shippingLabelId with a tracking number
-                // this.router.navigate(['/order-confirmation'], {
-                //   queryParams: {
-                //     shippingLabelId: response['shippingLabelId'],
-                //     trackingNumber: response['trackingNumber'],
-                //   },
-                // });
               },
               error: (error) => {
                 console.error('Error creating delivery:', error);

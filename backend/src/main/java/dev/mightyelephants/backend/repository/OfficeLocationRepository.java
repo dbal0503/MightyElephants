@@ -1,4 +1,9 @@
 package dev.mightyelephants.backend.repository;
 
-public interface OfficeLocation {
+import dev.mightyelephants.backend.model.OfficeLocation;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface OfficeLocationRepository extends JpaRepository<OfficeLocation, Long> {
 }
