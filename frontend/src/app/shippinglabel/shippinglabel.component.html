@@ -8,7 +8,7 @@
   <div *ngIf="isError" class="error-state">
     <p>Error: Could not create shipping label. Please try again later.</p>
   </div>
-
+<!---To view the template of the label change !isLoading to isLoading and reload page--->
   <div *ngIf="!isLoading && !isError" class="shipping-label-details">
     <div *ngIf="shippingLabelDetails">
       <div class="shipping-label-item">
