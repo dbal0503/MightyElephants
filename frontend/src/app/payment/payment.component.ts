@@ -13,7 +13,6 @@ import {
   HttpHeaders,
   HttpClientModule,
 } from '@angular/common/http';
-import { ShippingLabelResponse } from './interfaces/IShippingLabelResponse';
 
 @Component({
   selector: 'app-payment',
@@ -162,51 +161,7 @@ export class PaymentComponent implements OnInit {
               paymentId: response,
             };
             //temporary to test the endpoint but this will need to called on the shipping label route/page
-            this.http
-              .post<ShippingLabelResponse>(
-                'http://localhost:8080/api/shippinglabel/create',
-                shippindLabelData,
-                { headers }
-              )
-              .subscribe({
-                next: (response) => {
-                  console.log('Shipping label data:', response);
-
-                  const deliveryData = {
-                    shippingLabelId: response['shippingLabelId'],
-                    sender: response['sender'],
-                    shippingType: response['shippingType'],
-                    origin: response['origin'],
-                    destination: response['destination'],
-                  };
-
-                  this.http
-                    .post(
-                      'http://localhost:8080/api/deliveries/create',
-                      deliveryData,
-                      { headers }
-                    )
-                    .subscribe({
-                      next: (deliveryResponse) => {
-                        console.log('Delivery created:', deliveryResponse);
-
-                        // Something to think about, if we want to redirect to a confirmation page and give shippingLabelId with a tracking number
-                        // this.router.navigate(['/order-confirmation'], {
-                        //   queryParams: {
-                        //     shippingLabelId: response['shippingLabelId'],
-                        //     trackingNumber: response['trackingNumber'],
-                        //   },
-                        // });
-                      },
-                      error: (error) => {
-                        console.error('Error creating delivery:', error);
-                        alert(
-                          'Error creating delivery. Please try again later.'
-                        );
-                        this.isProcessing = false;
-                      },
-                    });
-           /* this.http.post('http://localhost:8080/api/shippinglabel/create', shippindLabelData, { headers })
+            /* this.http.post('http://localhost:8080/api/shippinglabel/create', shippindLabelData, { headers })
               .subscribe({
                 next: (response) => {
                   const shippingLabelData = response as { [key: string]: any };
@@ -226,18 +181,13 @@ export class PaymentComponent implements OnInit {
                   console.error('Error saving quote:', error);
                   alert('Error saving quote. Please try again later.');
                   this.isProcessing = false;
-                },
-              });
-
-            //Needs to route to shipping label page
-            /*this.router.navigate(['/payment-success'], {
                 }
               });*/
             this.router.navigate(['/shippinglabel'], {
               queryParams: {
                 paymentId: response,
                 quoteId: this.quoteId,
-              }
+              },
             });
           },
           error: (error) => {

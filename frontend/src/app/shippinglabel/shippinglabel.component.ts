@@ -1,15 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient, HttpHeaders,HttpClientModule } from '@angular/common/http';
-import {ReactiveFormsModule} from "@angular/forms";
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpClientModule,
+} from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ShippingLabelResponse } from './interfaces/IShippingLabelResponse';
 
 @Component({
   selector: 'app-shippinglabel',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
   templateUrl: './shippinglabel.component.html',
-  styleUrls: ['./shippinglabel.component.scss']
+  styleUrls: ['./shippinglabel.component.scss'],
 })
 export class ShippingLabelComponent implements OnInit {
   paymentId: string | null = null;
@@ -18,32 +23,38 @@ export class ShippingLabelComponent implements OnInit {
   isLoading: boolean = true;
   isError: boolean = false;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router) { }
+  constructor(
+    private route: ActivatedRoute,
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     //tempDetails:
     this.shippingLabelDetails = {
-      trackingNumber: "1234567890",
-      origin: "New York, NY",
-      destination: "Los Angeles, CA",
+      trackingNumber: '1234567890',
+      origin: 'New York, NY',
+      destination: 'Los Angeles, CA',
       weight: 2.5,
-      shippingType: "Express",
+      shippingType: 'Express',
       price: 19.99,
       estimatedDelivery: new Date('2024-11-20'),
-      dateIssued: new Date('2024-11-14')}
+      dateIssued: new Date('2024-11-14'),
+    };
 
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       this.paymentId = params['paymentId'];
       this.quoteId = params['quoteId'];
 
       if (!this.paymentId || !this.quoteId) {
-        console.error("Required parameters (paymentId or quoteId) are missing.");
+        console.error(
+          'Required parameters (paymentId or quoteId) are missing.'
+        );
         this.isError = true;
         this.isLoading = false;
         return;
       }
       this.createShippingLabel();
-
     });
   }
 
@@ -65,18 +76,52 @@ export class ShippingLabelComponent implements OnInit {
       quoteId: this.quoteId,
     };
 
-    this.http.post('http://localhost:8080/api/shippinglabel/create', shippingLabelData, { headers })
+    this.http
+      .post<ShippingLabelResponse>(
+        'http://localhost:8080/api/shippinglabel/create',
+        shippingLabelData,
+        { headers }
+      )
       .subscribe({
         next: (response) => {
           this.shippingLabelDetails = response;
           this.isLoading = false;
+          const deliveryData = {
+            shippingLabelId: response['shippingLabelId'],
+            sender: response['sender'],
+            shippingType: response['shippingType'],
+            origin: response['origin'],
+            destination: response['destination'],
+          };
+
+          this.http
+            .post('http://localhost:8080/api/deliveries/create', deliveryData, {
+              headers,
+            })
+            .subscribe({
+              next: (deliveryResponse) => {
+                console.log('Delivery created:', deliveryResponse);
+
+                // Something to think about, if we want to redirect to a confirmation page and give shippingLabelId with a tracking number
+                // this.router.navigate(['/order-confirmation'], {
+                //   queryParams: {
+                //     shippingLabelId: response['shippingLabelId'],
+                //     trackingNumber: response['trackingNumber'],
+                //   },
+                // });
+              },
+              error: (error) => {
+                console.error('Error creating delivery:', error);
+                alert('Error creating delivery. Please try again later.');
+                this.isError = true;
+              },
+            });
         },
         error: (error) => {
           console.error('Error creating shipping label:', error);
           this.isError = true;
           this.isLoading = false;
-        }
+        },
       });
   }
 }
-
