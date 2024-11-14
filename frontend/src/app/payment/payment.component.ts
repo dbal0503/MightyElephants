@@ -1,15 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormControl,ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient, HttpHeaders,HttpClientModule } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpClientModule,
+} from '@angular/common/http';
 
 @Component({
   selector: 'app-payment',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
   templateUrl: './payment.component.html',
-  styleUrls: ['./payment.component.scss']
+  styleUrls: ['./payment.component.scss'],
 })
 export class PaymentComponent implements OnInit {
   paymentForm: FormGroup;
@@ -18,45 +28,45 @@ export class PaymentComponent implements OnInit {
   paymentId: string | null = null;
   isProcessing = false;
 
-  constructor(private fb: FormBuilder,
-              private route: ActivatedRoute,
-              private router: Router,
-              private http: HttpClient) {
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private http: HttpClient
+  ) {
     this.paymentForm = this.fb.group({
       paymentMethod: ['card'],
-      cardNumber: ['', [
-        Validators.required,
-        Validators.pattern('^[0-9]{16}$')
-      ]],
-      cardHolder: ['', [
-        Validators.required,
-        Validators.pattern('^[a-zA-Z ]+$')
-      ]],
-      expiryDate: ['', [
-        Validators.required,
-        Validators.pattern('^(0[1-9]|1[0-2])\/([0-9]{2})$')
-      ]],
-      cvv: ['', [
-        Validators.required,
-        Validators.pattern('^[0-9]{3}$')
-      ]],
-      email: ['', [
-        Validators.email
-      ]]
+      cardNumber: [
+        '',
+        [Validators.required, Validators.pattern('^[0-9]{16}$')],
+      ],
+      cardHolder: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z ]+$')],
+      ],
+      expiryDate: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^(0[1-9]|1[0-2])/([0-9]{2})$'),
+        ],
+      ],
+      cvv: ['', [Validators.required, Validators.pattern('^[0-9]{3}$')]],
+      email: ['', [Validators.email]],
     });
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       const quoteId = params['quoteId'];
       if (quoteId) {
         this.quoteId = quoteId;
-        console.log("Quote ID: ", this.quoteId);
-      }else {
-        console.error("Quote ID not found");
+        console.log('Quote ID: ', this.quoteId);
+      } else {
+        console.error('Quote ID not found');
       }
     });
-    this.paymentForm.get('paymentMethod')?.valueChanges.subscribe(method => {
+    this.paymentForm.get('paymentMethod')?.valueChanges.subscribe((method) => {
       this.paymentMethod = method;
       this.updateValidators();
     });
@@ -70,13 +80,13 @@ export class PaymentComponent implements OnInit {
       emailField?.clearValidators();
       emailField?.updateValueAndValidity();
 
-      cardFields.forEach(field => {
+      cardFields.forEach((field) => {
         const control = this.paymentForm.get(field);
         control?.setValidators([Validators.required]);
         control?.updateValueAndValidity();
       });
     } else {
-      cardFields.forEach(field => {
+      cardFields.forEach((field) => {
         const control = this.paymentForm.get(field);
         control?.clearValidators();
         control?.updateValueAndValidity();
@@ -87,7 +97,7 @@ export class PaymentComponent implements OnInit {
     }
   }
   private markFormGroupTouched(formGroup: FormGroup): void {
-    Object.values(formGroup.controls).forEach(control => {
+    Object.values(formGroup.controls).forEach((control) => {
       if (control instanceof FormControl) {
         control.markAsTouched();
       } else if (control instanceof FormGroup) {
@@ -114,7 +124,8 @@ export class PaymentComponent implements OnInit {
       let paymentData: any;
 
       if (this.paymentMethod === 'card') {
-        const [month, year] = this.paymentForm.get('expiryDate')?.value.split('/') || [];
+        const [month, year] =
+          this.paymentForm.get('expiryDate')?.value.split('/') || [];
 
         paymentData = {
           paymentMethod: 'CREDIT_CARD',
@@ -124,7 +135,7 @@ export class PaymentComponent implements OnInit {
             cardHolderName: this.paymentForm.get('cardHolder')?.value,
             expiryMonth: month,
             expiryYear: `20${year}`, // Convert to full year
-            cvv: this.paymentForm.get('cvv')?.value
+            cvv: this.paymentForm.get('cvv')?.value,
           },
         };
       } else {
@@ -132,22 +143,25 @@ export class PaymentComponent implements OnInit {
           paymentMethod: 'PAYPAL',
           quoteId: this.quoteId,
           details: {
-            email: this.paymentForm.get('email')?.value
+            email: this.paymentForm.get('email')?.value,
           },
         };
       }
       console.log(paymentData);
 
-      this.http.post('http://localhost:8080/api/payments/process', paymentData, { headers })
+      this.http
+        .post('http://localhost:8080/api/payments/process', paymentData, {
+          headers,
+        })
         .subscribe({
           next: (response) => {
-            console.log("Payment Id: ", response);
+            console.log('Payment Id: ', response);
             const shippindLabelData = {
               quoteId: this.quoteId,
-              paymentId: response
+              paymentId: response,
             };
             //temporary to test the endpoint but this will need to called on the shipping label route/page
-           /* this.http.post('http://localhost:8080/api/shippinglabel/create', shippindLabelData, { headers })
+            /* this.http.post('http://localhost:8080/api/shippinglabel/create', shippindLabelData, { headers })
               .subscribe({
                 next: (response) => {
                   const shippingLabelData = response as { [key: string]: any };
@@ -173,14 +187,14 @@ export class PaymentComponent implements OnInit {
               queryParams: {
                 paymentId: response,
                 quoteId: this.quoteId,
-              }
+              },
             });
           },
           error: (error) => {
             this.isProcessing = false;
             console.log('Payment processing error:', error);
             alert('Error processing payment. Please try again later.');
-          }
+          },
         });
     } else {
       this.markFormGroupTouched(this.paymentForm);

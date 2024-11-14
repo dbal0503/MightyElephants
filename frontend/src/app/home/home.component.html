@@ -1,33 +1,41 @@
 <div class="home-container">
-    <section class="hero-section">
-      <h1>Welcome to Mighty Elephants Delivery Services</h1>
-      <p>Your trusted partner for fast and reliable deliveries.</p>
-      <div class="hero-buttons">
-        <button class="primary-btn">Schedule a Pickup</button>
-        <button class="secondary-btn">Learn More</button>
-        <button class="primary-btn" routerLink="/payment">Go to Payment</button>
-        <button class="primary-btn" routerLink="/quote-request">Get A Quote</button>
-        <button class="primary-btn" routerLink="/shippinglabel" [queryParams]="{ paymentId: '123', quoteId: '456' }">Get Shipping Label</button>
+  <section class="hero-section">
+    <h1>Welcome to Mighty Elephants Delivery Services</h1>
+    <p>Your trusted partner for fast and reliable deliveries.</p>
+    <div class="hero-buttons">
+      <button class="primary-btn">Schedule a Pickup</button>
+      <button class="secondary-btn">Learn More</button>
+      <button class="primary-btn" routerLink="/payment">Go to Payment</button>
+      <button class="primary-btn" routerLink="/quote-request">
+        Get A Quote
+      </button>
+      <button
+        class="primary-btn"
+        routerLink="/shippinglabel"
+        [queryParams]="{ paymentId: '123', quoteId: '456' }"
+      >
+        Get Shipping Label
+      </button>
 
-        <!-- testing to view payment page, to be removed  -->
-      </div>
-    </section>
+      <!-- testing to view payment page, to be removed  -->
+    </div>
+  </section>
 
-    <section class="services-section">
-      <h2>Our Services</h2>
-      <div class="services">
-        <div class="service">
-          <h3>Fast Delivery</h3>
-          <p>Get your packages delivered swiftly and safely.</p>
-        </div>
-        <div class="service">
-          <h3>Global Reach</h3>
-          <p>We deliver to over 200 countries worldwide.</p>
-        </div>
-        <div class="service">
-          <h3>Customer Support</h3>
-          <p>24/7 customer support to assist you anytime.</p>
-        </div>
+  <section class="services-section">
+    <h2>Our Services</h2>
+    <div class="services">
+      <div class="service">
+        <h3>Fast Delivery</h3>
+        <p>Get your packages delivered swiftly and safely.</p>
       </div>
-    </section>
-  </div>
+      <div class="service">
+        <h3>Global Reach</h3>
+        <p>We deliver to over 200 countries worldwide.</p>
+      </div>
+      <div class="service">
+        <h3>Customer Support</h3>
+        <p>24/7 customer support to assist you anytime.</p>
+      </div>
+    </div>
+  </section>
+</div>

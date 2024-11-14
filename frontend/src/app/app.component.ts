@@ -4,9 +4,9 @@ import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { QuoteRequestComponent } from './quote/quote-request.component';
-import { environment } from '../environments/environment';
+// import { environment } from '../environments/environment';
 import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
-import { ShippingLabelComponent} from "./shippinglabel/shippinglabel.component";
+import { ShippingLabelComponent } from './shippinglabel/shippinglabel.component';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +18,7 @@ import { ShippingLabelComponent} from "./shippinglabel/shippinglabel.component";
     SignInComponent,
     QuoteRequestComponent,
     ChatWidgetComponent,
-    ShippingLabelComponent
+    ShippingLabelComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
@@ -28,7 +28,6 @@ export class AppComponent {
 
   openSignInModal() {
     this.showSignInModal = true;
-
   }
 
   closeSignInModal() {
@@ -40,15 +39,13 @@ export class AppComponent {
     }
   }
 
-
   loadGoogleMapsAPI() {
     if (typeof document !== 'undefined') {
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${environment.API_KEY}&libraries=places`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDjwCCISHg8zYSCNqS_vDm4hzOKoRfsPOw&libraries=places`;
       script.async = true;
       script.defer = true;
       document.body.appendChild(script);
     }
   }
-
 }

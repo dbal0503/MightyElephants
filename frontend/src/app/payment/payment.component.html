@@ -1,90 +1,99 @@
 <!-- payment.component.html -->
 <div class="payment-container">
-    <h2>Payment Information</h2>
+  <h2>Payment Information</h2>
 
-    <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()" class="payment-form">
-      <div class="payment-method-selector">
-        <label>
-          <input type="radio" formControlName="paymentMethod" value="card">
-          Credit Card
-        </label>
-        <label>
-          <input type="radio" formControlName="paymentMethod" value="paypal">
-          PayPal
-        </label>
+  <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()" class="payment-form">
+    <div class="payment-method-selector">
+      <label>
+        <input type="radio" formControlName="paymentMethod" value="card" />
+        Credit Card
+      </label>
+      <label>
+        <input type="radio" formControlName="paymentMethod" value="paypal" />
+        PayPal
+      </label>
+    </div>
+
+    <div *ngIf="paymentMethod === 'card'" class="card-fields">
+      <div class="form-group">
+        <label for="cardNumber">Card Number</label>
+        <input
+          id="cardNumber"
+          type="text"
+          formControlName="cardNumber"
+          placeholder="1234 5678 9012 3456"
+          maxlength="16"
+        />
+        <div *ngIf="isFieldInvalid('cardNumber')" class="error-message">
+          Please enter a valid 16-digit card number
+        </div>
       </div>
 
-      <div *ngIf="paymentMethod === 'card'" class="card-fields">
+      <div class="form-group">
+        <label for="cardHolder">Card Holder Name</label>
+        <input
+          id="cardHolder"
+          type="text"
+          formControlName="cardHolder"
+          placeholder="John Doe"
+        />
+        <div *ngIf="isFieldInvalid('cardHolder')" class="error-message">
+          Please enter the cardholder name
+        </div>
+      </div>
+
+      <div class="form-row">
         <div class="form-group">
-          <label for="cardNumber">Card Number</label>
+          <label for="expiryDate">Expiry Date</label>
           <input
-            id="cardNumber"
+            id="expiryDate"
             type="text"
-            formControlName="cardNumber"
-            placeholder="1234 5678 9012 3456"
-            maxlength="16">
-          <div *ngIf="isFieldInvalid('cardNumber')" class="error-message">
-            Please enter a valid 16-digit card number
+            formControlName="expiryDate"
+            placeholder="MM/YY"
+            maxlength="5"
+          />
+          <div *ngIf="isFieldInvalid('expiryDate')" class="error-message">
+            Enter valid expiry date (MM/YY)
           </div>
         </div>
 
         <div class="form-group">
-          <label for="cardHolder">Card Holder Name</label>
+          <label for="cvv">CVV</label>
           <input
-            id="cardHolder"
+            id="cvv"
             type="text"
-            formControlName="cardHolder"
-            placeholder="John Doe">
-          <div *ngIf="isFieldInvalid('cardHolder')" class="error-message">
-            Please enter the cardholder name
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="expiryDate">Expiry Date</label>
-            <input
-              id="expiryDate"
-              type="text"
-              formControlName="expiryDate"
-              placeholder="MM/YY"
-              maxlength="5">
-            <div *ngIf="isFieldInvalid('expiryDate')" class="error-message">
-              Enter valid expiry date (MM/YY)
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="cvv">CVV</label>
-            <input
-              id="cvv"
-              type="text"
-              formControlName="cvv"
-              placeholder="123"
-              maxlength="4">
-            <div *ngIf="isFieldInvalid('cvv')" class="error-message">
-              Enter valid CVV
-            </div>
+            formControlName="cvv"
+            placeholder="123"
+            maxlength="4"
+          />
+          <div *ngIf="isFieldInvalid('cvv')" class="error-message">
+            Enter valid CVV
           </div>
         </div>
       </div>
+    </div>
 
-      <div *ngIf="paymentMethod === 'paypal'" class="paypal-fields">
-        <div class="form-group">
-          <label for="email">PayPal Email</label>
-          <input
-            id="email"
-            type="email"
-            formControlName="email"
-            placeholder="your@email.com">
-          <div *ngIf="isFieldInvalid('email')" class="error-message">
-            Please enter a valid email address
-          </div>
+    <div *ngIf="paymentMethod === 'paypal'" class="paypal-fields">
+      <div class="form-group">
+        <label for="email">PayPal Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="your@email.com"
+        />
+        <div *ngIf="isFieldInvalid('email')" class="error-message">
+          Please enter a valid email address
         </div>
       </div>
+    </div>
 
-      <button type="submit" [disabled]="isProcessing || !paymentForm.valid" class="submit-button">
-        {{ isProcessing ? 'Processing...' : 'Process Payment' }}
-      </button>
-    </form>
-  </div>
+    <button
+      type="submit"
+      [disabled]="isProcessing || !paymentForm.valid"
+      class="submit-button"
+    >
+      {{ isProcessing ? "Processing..." : "Process Payment" }}
+    </button>
+  </form>
+</div>
