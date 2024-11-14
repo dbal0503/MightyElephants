@@ -200,21 +200,20 @@ export class QuoteRequestComponent implements OnInit {
         estimatedDelivery: this.selectedOption.estimatedDelivery
       };
 
-      this.http.post('http://localhost:8080/api/quote/save-request', quoteData, {headers}).subscribe(
-        (response) => {
-          console.log('Quote saved successfully:', response);
-          this.router.navigate(['/payment'], {
-            state: { selectedQuote: this.selectedOption }
-          });
-        },
-        (error) => {
-          console.error('Error saving quote:', error);
-          alert('Error saving quote. Please try again later.');
-          this.router.navigate(['/payment'], {//Temporary WILL REMOVE
-            state: { selectedQuote: this.selectedOption } //Temporary WILL REMOVE
-          });//Temporary WILL REMOVE
-        }
-      );
+      this.http.post('http://localhost:8080/api/quote/save-request', quoteData, {headers})
+        .subscribe({
+          next: (response) => {
+            console.log('Quote saved successfully:', response);
+            this.router.navigate(['/payment'], {
+              queryParams: { quoteId: response }
+            });
+          },
+          error: (error) => {
+            console.error('Error saving quote:', error);
+            alert('Error saving quote. Please try again later.');
+            this.isPaying = false;
+          }
+        });
     } else {
       alert('Please select a shipping option.');
     }

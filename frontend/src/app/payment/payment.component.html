@@ -1,7 +1,7 @@
 <!-- payment.component.html -->
 <div class="payment-container">
     <h2>Payment Information</h2>
-    
+
     <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()" class="payment-form">
       <div class="payment-method-selector">
         <label>
@@ -13,11 +13,11 @@
           PayPal
         </label>
       </div>
-  
+
       <div *ngIf="paymentMethod === 'card'" class="card-fields">
         <div class="form-group">
           <label for="cardNumber">Card Number</label>
-          <input 
+          <input
             id="cardNumber"
             type="text"
             formControlName="cardNumber"
@@ -27,10 +27,10 @@
             Please enter a valid 16-digit card number
           </div>
         </div>
-  
+
         <div class="form-group">
           <label for="cardHolder">Card Holder Name</label>
-          <input 
+          <input
             id="cardHolder"
             type="text"
             formControlName="cardHolder"
@@ -39,11 +39,11 @@
             Please enter the cardholder name
           </div>
         </div>
-  
+
         <div class="form-row">
           <div class="form-group">
             <label for="expiryDate">Expiry Date</label>
-            <input 
+            <input
               id="expiryDate"
               type="text"
               formControlName="expiryDate"
@@ -53,10 +53,10 @@
               Enter valid expiry date (MM/YY)
             </div>
           </div>
-  
+
           <div class="form-group">
             <label for="cvv">CVV</label>
-            <input 
+            <input
               id="cvv"
               type="text"
               formControlName="cvv"
@@ -68,11 +68,11 @@
           </div>
         </div>
       </div>
-  
+
       <div *ngIf="paymentMethod === 'paypal'" class="paypal-fields">
         <div class="form-group">
           <label for="email">PayPal Email</label>
-          <input 
+          <input
             id="email"
             type="email"
             formControlName="email"
@@ -82,9 +82,9 @@
           </div>
         </div>
       </div>
-  
-      <button type="submit" [disabled]="paymentForm.invalid" class="submit-button">
-        Process Payment
+
+      <button type="submit" [disabled]="isProcessing || !paymentForm.valid" class="submit-button">
+        {{ isProcessing ? 'Processing...' : 'Process Payment' }}
       </button>
     </form>
   </div>
