@@ -49,6 +49,7 @@ public class ShippingLabelController {
             shippingDetails.put("sender", shippingLabel.getSender());
             shippingDetails.put("recipient", shippingLabel.getRecipient());
             shippingDetails.put("destination", shippingLabel.getDestination());
+            shippingDetails.put("trackingNumber", shippingLabel.getTrackingNumber());
 
             return ResponseEntity.ok(shippingDetails);
 
