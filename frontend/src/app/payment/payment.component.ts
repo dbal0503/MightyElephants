@@ -206,6 +206,21 @@ export class PaymentComponent implements OnInit {
                         this.isProcessing = false;
                       },
                     });
+           /* this.http.post('http://localhost:8080/api/shippinglabel/create', shippindLabelData, { headers })
+              .subscribe({
+                next: (response) => {
+                  const shippingLabelData = response as { [key: string]: any };
+                  const shippingLabelId = shippingLabelData['shippingLabelId'];
+                  console.log('Shipping label data:', shippingLabelData);
+
+                  //Needs to route to shipping label page
+                  this.router.navigate(['/shippinglabel'], {
+                    queryParams: {
+                      paymentId: response,
+                      quoteId: this.quoteId,
+                      shippingLabelId: shippingLabelId
+                    }
+                  });
                 },
                 error: (error) => {
                   console.error('Error saving quote:', error);
@@ -216,11 +231,14 @@ export class PaymentComponent implements OnInit {
 
             //Needs to route to shipping label page
             /*this.router.navigate(['/payment-success'], {
+                }
+              });*/
+            this.router.navigate(['/shippinglabel'], {
               queryParams: {
                 paymentId: response,
-                quoteId: this.quoteId
+                quoteId: this.quoteId,
               }
-            });*/
+            });
           },
           error: (error) => {
             this.isProcessing = false;

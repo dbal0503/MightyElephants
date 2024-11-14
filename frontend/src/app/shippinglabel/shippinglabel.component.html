@@ -1,0 +1,48 @@
+<div class="shipping-label-container" *ngIf="!isError">
+  <h2>Shipping Label Details</h2>
+
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading your shipping label...</p>
+  </div>
+  <div *ngIf="isError" class="error-state">
+    <p>Error: Could not create shipping label. Please try again later.</p>
+  </div>
+<!---To view the template of the label change !isLoading to isLoading and reload page--->
+  <div *ngIf="!isLoading && !isError" class="shipping-label-details">
+    <div *ngIf="shippingLabelDetails">
+      <div class="shipping-label-item">
+        <span class="label-heading">Tracking Number:</span>
+        <span class="label-value">{{ shippingLabelDetails.trackingNumber }}</span>
+      </div>
+      <div class="shipping-label-item">
+        <span class="label-heading">Origin:</span>
+        <span class="label-value">{{ shippingLabelDetails.origin }}</span>
+      </div>
+      <div class="shipping-label-item">
+        <span class="label-heading">Destination:</span>
+        <span class="label-value">{{ shippingLabelDetails.destination }}</span>
+      </div>
+      <div class="shipping-label-item">
+        <span class="label-heading">Weight:</span>
+        <span class="label-value">{{ shippingLabelDetails.weight }} kg</span>
+      </div>
+      <div class="shipping-label-item">
+        <span class="label-heading">Shipping Type:</span>
+        <span class="label-value">{{ shippingLabelDetails.shippingType }}</span>
+      </div>
+      <div class="shipping-label-item">
+        <span class="label-heading">Price:</span>
+        <span class="label-value">${{ shippingLabelDetails.price }}</span>
+      </div>
+      <div class="shipping-label-item">
+        <span class="label-heading">Estimated Delivery:</span>
+        <span class="label-value">{{ shippingLabelDetails.estimatedDelivery | date:'longDate' }}</span>
+      </div>
+      <div class="shipping-label-item">
+        <span class="label-heading">Date Issued:</span>
+        <span class="label-value">{{ shippingLabelDetails.dateIssued | date:'longDate' }}</span>
+      </div>
+    </div>
+  </div>
+</div>
