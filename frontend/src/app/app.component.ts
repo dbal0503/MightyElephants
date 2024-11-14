@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { QuoteRequestComponent } from './quote/quote-request.component';
+import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ import { QuoteRequestComponent } from './quote/quote-request.component';
     NavbarComponent,
     SignInComponent,
     QuoteRequestComponent,
+    ChatWidgetComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
@@ -23,6 +25,7 @@ export class AppComponent {
 
   openSignInModal() {
     this.showSignInModal = true;
+
   }
 
   closeSignInModal() {
