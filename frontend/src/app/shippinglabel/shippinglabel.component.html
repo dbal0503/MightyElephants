@@ -1,3 +1,12 @@
+<div *ngIf="isLoading" class="loading-state">
+  <div class="spinner"></div>
+  <p>Loading...</p>
+</div>
+
+<div *ngIf="isError" class="error-state">
+  <p>Error: Could not create shipping label. Please try again later.</p>
+</div>
+
 <div *ngIf="!isLoading && !isError">
   <h1>Shipping Label Created</h1>
   <p><strong>Tracking Number:</strong> {{ shippingLabelDetails.trackingNumber }}</p>
