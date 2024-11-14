@@ -1,23 +1,36 @@
 package dev.mightyelephants.backend.service;
 import dev.mightyelephants.backend.model.Payment;
+import dev.mightyelephants.backend.model.Quote;
 import dev.mightyelephants.backend.model.PaymentStrategy;
+import dev.mightyelephants.backend.model.ShippingLabel;
 import dev.mightyelephants.backend.repository.PaymentRepository;
+import dev.mightyelephants.backend.repository.QuoteRepository;
+import dev.mightyelephants.backend.repository.ShippingLabelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final Map<String, PaymentStrategy> paymentStrategies;
 
+    private final ShippingLabelRepository shippingLabelRepository;
+
+    private QuoteService quoteService;
+
     @Autowired
-    public PaymentService( PaymentRepository paymentRepository, List<PaymentStrategy> strategies) {
+    public PaymentService( PaymentRepository paymentRepository, QuoteService quoteService, ShippingLabelRepository shippingLabelRepository, List<PaymentStrategy> strategies) {
         this.paymentRepository = paymentRepository;
+        this.quoteService = quoteService;
+        this.shippingLabelRepository = shippingLabelRepository;
 
         // Map of the payment strategies
         this.paymentStrategies = strategies.stream()
@@ -28,35 +41,44 @@ public class PaymentService {
     }
 
     @Transactional
-    public Payment processPayment(String paymentType, double amount, Map<String, String> paymentDetails) {
-        // Pick right strategy to use based on payment type
-        String strategyName = null;
-        if (paymentType.equals("CREDIT_CARD")) {
-            strategyName = "CreditCardPaymentStrategy";
-        } else if (paymentType.equals("PAYPAL")) {
-            strategyName = "PaypalPaymentStrategy";
-        } else {
-            throw new IllegalArgumentException("Unsupported payment type: " + paymentType);
-        }
+    public Payment processPayment(String paymentType, long quoteId, Map<String, String> paymentDetails) {
+        try {
+            //System.out.println("Processing payment");
+            // Pick right strategy to use based on payment type
+            Quote quote = quoteService.getQuoteById(quoteId)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Quote not found with id: " + quoteId));
+            String strategyName = null;
+            if (paymentType.equals("CREDIT_CARD")) {
+                strategyName = "CreditCardPaymentStrategy";
+            } else if (paymentType.equals("PAYPAL")) {
+                strategyName = "PaypalPaymentStrategy";
+            } else {
+                throw new IllegalArgumentException("Unsupported payment type: " + paymentType);
+            }
 
 
-        PaymentStrategy strategy = paymentStrategies.get(strategyName);
+            PaymentStrategy strategy = paymentStrategies.get(strategyName);
 
-        if (strategy == null) {
-            throw new IllegalArgumentException("Unsupported payment type: " + paymentType);
-        }
+            if (strategy == null) {
+                throw new IllegalArgumentException("Unsupported payment type: " + paymentType);
+            }
 
-        // Create payment
-        Payment payment = strategy.createPayment(amount, paymentDetails);
+            // Create payment
+            Payment payment = strategy.createPayment(quote, paymentDetails);
 
-        // Process payment
-        boolean paymentSuccessful = payment.pay();
+            // Process payment
+            boolean paymentSuccessful = payment.pay();
 
-        if (paymentSuccessful) {
-            return paymentRepository.save(payment);
-        } else {
-            payment.setStatus("FAILED");
-            return paymentRepository.save(payment);
+            if (paymentSuccessful) {
+                return paymentRepository.save(payment);
+            } else {
+                payment.setStatus("FAILED");
+                return paymentRepository.save(payment);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error processing payment: " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error processing payment");
         }
     }
 
@@ -67,4 +89,10 @@ public class PaymentService {
     public List<Payment> getPaymentsByStatus(String status) {
         return paymentRepository.findByStatus(status);
     }
+
+    public Optional <Payment> getPaymentById(long id) {
+        return Optional.ofNullable(paymentRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Payment not found with id: " + id)));
+    }
+
 }

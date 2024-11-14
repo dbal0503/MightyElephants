@@ -12,8 +12,18 @@ import java.time.LocalDate;
 @Setter
 @DiscriminatorValue("STANDARD")
 public class StandardShippingLabel extends ShippingLabel {
+    public StandardShippingLabel(Quote quote, Payment payment) {
+        super(quote.getOrigin(), quote.getDestination(), quote.getWeight(), quote.getShippingType(), quote.getEstimatedDelivery(), quote.getSender(), quote.getRecipient(), quote, payment);
+        this.setTrackingNumber(generateTrackingNumber());
+    }
 
-    @Id
+    public StandardShippingLabel() {
+    }
+
+    private String generateTrackingNumber() {
+        return "STD-" + UUID.randomUUID().toString();
+    }
+    /*@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -25,7 +35,7 @@ public class StandardShippingLabel extends ShippingLabel {
     private String estimatedDelivery="3-5 Business Days";
     private LocalDate dateIssued = LocalDate.now();
 
-    public StandardShippingLabel(Quote quote) {
+    public StandardShippingLabel(Quote quote, Payment payment) {
         this.origin = quote.getOrigin();
         this.destination = quote.getDestination();
         this.weight = quote.getWeight();
@@ -38,5 +48,5 @@ public class StandardShippingLabel extends ShippingLabel {
 
     private String generateTrackingNumber() {
         return "STD-" + UUID.randomUUID().toString();
-    }
+    }*/
 }

@@ -6,6 +6,9 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { QuoteRequestComponent } from './quote/quote-request.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+// import { environment } from '../environments/environment';
+import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
+import { ShippingLabelComponent } from './shippinglabel/shippinglabel.component';
 
 @Component({
   selector: 'app-root',
@@ -18,19 +21,35 @@ import { HttpClient } from '@angular/common/http';
     QuoteRequestComponent,
     SignInComponent, 
     FormsModule,
+    ChatWidgetComponent,
+    ShippingLabelComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  
   public showSignInModal = false;
-  
+
   openSignInModal() {
     this.showSignInModal = true;
   }
 
   closeSignInModal() {
     this.showSignInModal = false;
+  }
+  ngOnInit() {
+    if (typeof window !== 'undefined') {
+      this.loadGoogleMapsAPI();
+    }
+  }
+
+  loadGoogleMapsAPI() {
+    if (typeof document !== 'undefined') {
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDjwCCISHg8zYSCNqS_vDm4hzOKoRfsPOw&libraries=places`;
+      script.async = true;
+      script.defer = true;
+      document.body.appendChild(script);
+    }
   }
 }

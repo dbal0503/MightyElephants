@@ -7,9 +7,9 @@ import dev.mightyelephants.backend.model.PaypalPayment;
 @Component
 public class PaypalPaymentStrategy implements PaymentStrategy {
     @Override
-    public Payment createPayment(double amount, Map<String, String> paymentDetails) {
+    public Payment createPayment(Quote quote, Map<String, String> paymentDetails) {
         PaypalPayment payment = new PaypalPayment();
-        payment.setAmount(amount);
+        payment.setQuote(quote);
         payment.setEmail(paymentDetails.get("email"));
         return payment;
     }

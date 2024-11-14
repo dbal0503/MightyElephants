@@ -1,0 +1,26 @@
+<div
+  class="chat-button"
+  (click)="toggleChat()"
+  [ngClass]="{ 'chat-active': chatOpen }"
+>
+  <div class="chat-circle" *ngIf="!chatOpen">
+    <img src="assets/MELogo.png" alt="Chat" />
+  </div>
+  <div class="chat-box" *ngIf="chatOpen" (click)="preventClose($event)">
+    <button class="close-button" (click)="closeChat($event)">X</button>
+    <div class="chat-content">
+      <div *ngFor="let msg of messages" class="message">
+        <p>{{ msg }}</p>
+      </div>
+    </div>
+    <div class="chat-input">
+      <input
+        type="text"
+        placeholder="Type your message here..."
+        [(ngModel)]="message"
+      (keyup.enter)="sendMessage()"
+      />
+      <button (click)="sendMessage()">Send</button>
+    </div>
+  </div>
+</div>

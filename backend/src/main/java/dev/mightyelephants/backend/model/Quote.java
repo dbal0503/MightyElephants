@@ -21,7 +21,19 @@ public class Quote {
     private String origin;
 
     @Column(nullable = false)
+    private double originLat;
+
+    @Column(nullable = false)
+    private double originLong;
+
+    @Column(nullable = false)
     private String destination;
+
+    @Column(nullable = false)
+    private double destinationLat;
+
+    @Column(nullable = false)
+    private double destinationLong;
 
     @Column(nullable = false)
     private LocalDate date;
@@ -32,19 +44,26 @@ public class Quote {
     @Column(nullable = false)
     private String shippingType;
 
+    @Column(nullable = false)
     private String estimatedDelivery;
 
     @Column(nullable = false)
     private double weight;
 
+    @Column(nullable = false)
+    private String recipient;
+
+    @Column(nullable = false)
+    private String sender;
+
 
     public Quote() {
     }
 
-    public Quote(String origin, String destination, LocalDate date, double price, String shippingType, double weight) {
+    public Quote(String origin, String destination, double price, String shippingType, double weight) {
         this.origin = origin;
         this.destination = destination;
-        this.date = date;
+        this.date = LocalDate.now();
         this.price = price;
         this.shippingType = shippingType;
         this.weight = weight;
