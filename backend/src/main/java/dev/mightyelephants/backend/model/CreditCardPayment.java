@@ -18,8 +18,11 @@ public class CreditCardPayment extends Payment {
     @Column(name = "cvv", nullable = false)
     private String cvv;
 
-    @Column(name = "expiry_date", nullable = false)
-    private String expiryDate;
+    @Column(name = "expiry_month", nullable = false)
+    private String expiryMonth;
+
+    @Column(name = "expiry_year", nullable = false)
+    private String expiryYear;
 
     @Override
     public boolean pay() {

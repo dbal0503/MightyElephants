@@ -17,6 +17,14 @@ public class ShippingLabel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "quote_id", nullable = false)
+    private Quote quote;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "payment_id", nullable = false)
+    private Payment payment;
+
     @Column(nullable = false, unique = true)
     private String trackingNumber;
 
@@ -33,30 +41,32 @@ public class ShippingLabel {
     private String shippingType;
 
     @Column(nullable = false)
-    private double price;
-
-    @Column(nullable = false)
     private String estimatedDelivery;
 
     @Column(nullable = false)
     private LocalDate dateIssued;
 
+    @Column(nullable = false)
+    private String sender;
+
+    @Column(nullable = false)
+    private String recipient;
+
     public ShippingLabel() {
-        this.trackingNumber = generateTrackingNumber();
         this.dateIssued = LocalDate.now();
     }
 
-    public ShippingLabel(String origin, String destination, double weight, String shippingType, double price, String estimatedDelivery) {
+    public ShippingLabel(String origin, String destination, double weight, String shippingType, String estimatedDelivery, String sender, String recipient, Quote quote, Payment payment) {
         this.origin = origin;
         this.destination = destination;
         this.weight = weight;
         this.shippingType = shippingType;
-        this.price = price;
         this.estimatedDelivery = estimatedDelivery;
-        this.trackingNumber = generateTrackingNumber();
+        this.sender = sender;
+        this.recipient = recipient;
         this.dateIssued = LocalDate.now();
+        this.quote = quote;
+        this.payment = payment;
     }
-    private String generateTrackingNumber() {
-        return UUID.randomUUID().toString();
-    }
+
 }
