@@ -4,7 +4,8 @@ import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { QuoteRequestComponent } from './quote/quote-request.component';
-import { environment } from '../environments/environment';
+// import { environment } from '../environments/environment';
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -19,7 +20,6 @@ import { environment } from '../environments/environment';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-
   public showSignInModal = false;
 
   openSignInModal() {
@@ -35,15 +35,13 @@ export class AppComponent {
     }
   }
 
-
   loadGoogleMapsAPI() {
     if (typeof document !== 'undefined') {
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${environment.API_KEY}&libraries=places`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyATPudxlLaKxZIRq3hMY9A7n4e6lrOUXoc&libraries=places`;
       script.async = true;
       script.defer = true;
       document.body.appendChild(script);
     }
   }
-
 }

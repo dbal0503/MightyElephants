@@ -17,14 +17,14 @@ public class DeliveryManService {
         this.deliveryManRepository = deliveryManRepository;
     }
 
-    public Optional<DeliveryMan> getAvailableDeliveryMan(String origin, String driverShippingType, boolean isAvailable) {
-        return deliveryManRepository.findFirstByOriginAndDriverShippingTypeAndIsAvailable(
-                origin, driverShippingType, isAvailable);
+    public Optional<DeliveryMan> getAvailableDeliveryMan(String origin, String driverShippingType, boolean available) {
+        return deliveryManRepository.findFirstByOriginAndDriverShippingTypeAndAvailable(
+                origin, driverShippingType, true);
     }
 
 //    Make it not available after every delivery, delivers right away
     public void assignDelivery(DeliveryMan deliveryMan) {
-        deliveryMan.setIsAvailable(false); // Mark as unavailable if needed
+        deliveryMan.setAvailable(false); // Mark as unavailable if needed
         deliveryMan.setNumberOfPackages(deliveryMan.getNumberOfPackages() + 1);
         deliveryManRepository.save(deliveryMan);
     }

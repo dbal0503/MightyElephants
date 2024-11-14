@@ -74,7 +74,7 @@ public class DeliveryService {
           DeliveryMan deliveryMan = deliveryManRepository.findById(delivery.getDeliveryManId())
                   .orElseThrow(() -> new RuntimeException(("DeliveryMan not found for ID: " + delivery.getDeliveryManId())));
 
-          deliveryMan.setIsAvailable(true);
+          deliveryMan.setAvailable(true);
           deliveryMan.setNumberOfPackages(Math.max(deliveryMan.getNumberOfPackages() -1, 0));
           deliveryManRepository.save(deliveryMan);
         }
