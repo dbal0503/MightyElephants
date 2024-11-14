@@ -14,14 +14,17 @@ import { Client } from '@stomp/stompjs';
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,      
-    HttpClientModule 
+    FormsModule,
+    HttpClientModule
   ]
 })
 export class LiveTrackingComponent implements AfterViewInit {
   private map: any;
   private marker: any;
   public trackingNumber: string = '';
+
+  public isLoading: boolean = false; 
+  public isTracking: boolean = false;
 
   private stompClient!: Client;
 
@@ -48,8 +51,7 @@ export class LiveTrackingComponent implements AfterViewInit {
   }
 
   private fixLeafletIconPaths(L: any) {
-
-    const iconUrl = 'frontend\public\assets\marker.png';
+    const iconUrl = 'frontend/public/assets/marker.png';
     L.Icon.Default.mergeOptions({
       iconUrl,
     });
@@ -57,37 +59,46 @@ export class LiveTrackingComponent implements AfterViewInit {
 
   public startTracking() {
     if (typeof window !== 'undefined') {
+      this.isLoading = true; // Show loading SVG
+      this.isTracking = true; // disable track btn
       const payload = {
         trackingNumber: this.trackingNumber,
         startAddress: '1555 Rene-Levesque Blvd W, Montreal, QC H3G 0G9',
         endAddress: '790 William St, Montreal, QC H3C 0Y4'
       };
-  
+
       const token = localStorage.getItem('id_token');
       const headers = { 'Authorization': 'Bearer ' + token };
-  
-      this.http.post('http://localhost:8080/start-tracking', payload, { headers }).subscribe((response: any) => {
-        this.connectWebSocket();
-        const routeCoordinates = response.routeCoordinates;
-        this.drawRoute(routeCoordinates);
-      });
+
+      this.http.post('http://localhost:8080/start-tracking', payload, { headers }).subscribe(
+        (response: any) => {
+          this.isLoading = false; // Hide loading SVG
+          this.isTracking = true; // Disable track btn
+          this.connectWebSocket();
+          const routeCoordinates = response.routeCoordinates;
+          this.drawRoute(routeCoordinates);
+        },
+        (error) => {
+          this.isLoading = false; // Hide loading SVG on error
+          console.error('Error starting tracking:', error);
+        }
+      );
     }
   }
+
   private async drawRoute(routeCoordinates: number[][]) {
     if (typeof window !== 'undefined') {
       const L = await import('leaflet');
-  
+
       const latLngs: [number, number][] = routeCoordinates.map(coord => [coord[0], coord[1]] as [number, number]); // [latitude, longitude]
-  
+
       L.polyline(latLngs, { color: 'blue' }).addTo(this.map);
     }
   }
-    
 
   private connectWebSocket() {
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('id_token');
-      //add token to header of sockjs
       const socket = new SockJS('http://localhost:8080/ws');
       this.stompClient = new Client({
         webSocketFactory: () => socket,
@@ -99,22 +110,35 @@ export class LiveTrackingComponent implements AfterViewInit {
               this.handleMessage(coord);
             }
           });
+        },
+        onDisconnect: () => {
+          this.isTracking = false;
+        },
+        onStompError: (frame) => {
+          console.error('Broker reported error: ' + frame.headers['message']);
+          console.error('Additional details: ' + frame.body);
+          this.isTracking = false;
         }
       });
       this.stompClient.activate();
     }
   }
 
-  private handleMessage(coord: number[]) {
-    if (Array.isArray(coord) && coord.length === 2) {
+  private handleMessage(coord: any) {
+    if (coord === 'END_OF_TRACKING') {
+      // Stop tracking
+      this.stompClient.deactivate();
+      this.isTracking = false;
+    } else if (Array.isArray(coord) && coord.length === 2) {
       const [latitude, longitude] = coord;
       this.updateMarker(latitude, longitude);
     }
   }
+
   private async updateMarker(lat: number, lng: number) {
     if (typeof window !== 'undefined') {
       const L = await import('leaflet');
-  
+
       if (this.marker) {
         this.marker.setLatLng([lat, lng]);
       } else {
@@ -125,11 +149,17 @@ export class LiveTrackingComponent implements AfterViewInit {
           iconAnchor: [12, 41],
           popupAnchor: [1, -34],
         });
-  
+
         this.marker = L.marker([lat, lng], { icon: myIcon }).addTo(this.map);
       }
       this.map.setView([lat, lng], this.map.getZoom());
     }
   }
-  
+
+  public stopTracking() {
+    if (this.stompClient && this.stompClient.connected) {
+      this.stompClient.deactivate();
+    }
+    this.isTracking = false;
+  }
 }
