@@ -7,6 +7,7 @@ import { QuoteRequestComponent } from './quote/quote-request.component';
 import { environment } from '../environments/environment';
 import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
 import { ShippingLabelComponent} from "./shippinglabel/shippinglabel.component";
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ import { ShippingLabelComponent} from "./shippinglabel/shippinglabel.component";
     NavbarComponent,
     SignInComponent,
     QuoteRequestComponent,
+    HttpClientModule,
     ChatWidgetComponent,
     ShippingLabelComponent
   ],
