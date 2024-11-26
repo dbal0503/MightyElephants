@@ -44,7 +44,7 @@ export class ChatWidgetComponent {
     const apiUrl = 'http://localhost:8080/api/chat';
     const body = { message };
 
-    return this.http.post<any>(apiUrl, body);
+    return this.http.post<ChatResponse>(apiUrl, body);
   }
 
 }
