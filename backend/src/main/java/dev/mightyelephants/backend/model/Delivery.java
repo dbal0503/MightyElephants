@@ -1,39 +1,58 @@
 package dev.mightyelephants.backend.model;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
-@Table(name = "deliveries")
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
+@Entity
+@Table(name = "deliveries")
 public class Delivery {
+
+    //A BUNCH of this information will just be taken using shipping label
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long deliveryId;
+    private Long id;
+
+    @Column(nullable = false)
+    private Long shippingLabelId;
+
+    @Column(nullable = false)
+    private String sender;
+
+    @Column(nullable = false)
+    private String shippingType;
+
+    @Column(nullable = false)
+    private String origin;
+
+    @Column(nullable = false)
+    private String destination;
 
     @Column(nullable = false)
     private String status;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false,  unique = true)
     private String trackingNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "sender_id", nullable = false)
-    private Sender sender;
+    @Column(nullable = true)
+    private Long deliveryManId; // Placeholder, we'll manage this later
 
-    @ManyToOne
-    @JoinColumn(name = "recipient_id", nullable = false)
-    private Recipient recipient;
+    // Default constructor
+    public Delivery() {}
 
-    public Delivery() {
-    }
-
-    public Delivery(String status, String trackingNumber, Sender sender, Recipient recipient) {
-        this.status = status;
-        this.trackingNumber = trackingNumber;
+    // Parameterized constructor
+    public Delivery(Long shippingLabelId, String sender, String origin, String destination, String shippingType, String trackingNumber, String status) {
+        this.shippingLabelId = shippingLabelId;
         this.sender = sender;
-        this.recipient = recipient;
+        this.origin = origin;
+        this.destination = destination;
+        this.shippingType = shippingType;
+        this.trackingNumber = trackingNumber;
+        this.status = status;
     }
 }
