@@ -6,7 +6,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { QuoteRequestComponent } from './quote/quote-request.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-// import { environment } from '../environments/environment';
+//import { environment } from '../environments/environment';
 import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
 import { ShippingLabelComponent } from './shippinglabel/shippinglabel.component';
 
@@ -19,7 +19,7 @@ import { ShippingLabelComponent } from './shippinglabel/shippinglabel.component'
     NavbarComponent,
     SignInComponent,
     QuoteRequestComponent,
-    SignInComponent, 
+    SignInComponent,
     FormsModule,
     ChatWidgetComponent,
     ShippingLabelComponent,
@@ -32,6 +32,7 @@ export class AppComponent {
 
   openSignInModal() {
     this.showSignInModal = true;
+
   }
 
   closeSignInModal() {
@@ -43,13 +44,15 @@ export class AppComponent {
     }
   }
 
+
   loadGoogleMapsAPI() {
     if (typeof document !== 'undefined') {
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDjwCCISHg8zYSCNqS_vDm4hzOKoRfsPOw&libraries=places`;
+      //script.src = `https://maps.googleapis.com/maps/api/js?key=${environment.API_KEY}&libraries=places`;
       script.async = true;
       script.defer = true;
       document.body.appendChild(script);
     }
   }
+
 }
