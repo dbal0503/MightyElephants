@@ -1,7 +1,9 @@
 package dev.mightyelephants.backend.controller;
 
+import dev.mightyelephants.backend.model.ShippingLabel;
 import dev.mightyelephants.backend.service.GeocodingService;
 import dev.mightyelephants.backend.service.RoutingService;
+import dev.mightyelephants.backend.service.ShippingLabelService;
 import dev.mightyelephants.backend.service.TrackingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,11 +30,20 @@ public class TrackingController {
     @Autowired
     private TrackingService trackingService;
 
+    @Autowired
+    private ShippingLabelService shippingLabelService;
+
     @PostMapping("/start-tracking")
     public ResponseEntity<Map<String, Object>> startTracking(@RequestBody Map<String, String> payload) {
         String trackingNumber = payload.get("trackingNumber");
-        String startAddress = payload.get("startAddress");
-        String endAddress = payload.get("endAddress");
+//        String startAddress = payload.get("startAddress");
+//        String endAddress = payload.get("endAddress");
+
+        //get startaddress and endaddress from the ShippingLabel object
+        ShippingLabel sL = shippingLabelService.getShippingLabelByTrackingNumber(trackingNumber);
+
+        String startAddress = sL.getOrigin();
+        String endAddress = sL.getDestination();
 
         double[] startCoords = geocodingService.geocodeAddress(startAddress);
         double[] endCoords = geocodingService.geocodeAddress(endAddress);
