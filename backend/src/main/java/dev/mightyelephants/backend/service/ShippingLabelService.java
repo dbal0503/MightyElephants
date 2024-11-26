@@ -32,4 +32,8 @@ public class ShippingLabelService {
         return shippingLabelRepository.save(shippingLabel); //Returns the full shipping label object
     }
 
+    public ShippingLabel getShippingLabelByTrackingNumber(String trackingNumber) {
+        return shippingLabelRepository.findByTrackingNumber(trackingNumber);
+    }
+
 }

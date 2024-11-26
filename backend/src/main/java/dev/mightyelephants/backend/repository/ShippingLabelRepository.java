@@ -8,4 +8,5 @@ import dev.mightyelephants.backend.model.ExpressShippingLabel;
 
 @Repository
 public interface ShippingLabelRepository extends JpaRepository<ShippingLabel, Long> {
+    ShippingLabel findByTrackingNumber(String trackingNumber);
 }
